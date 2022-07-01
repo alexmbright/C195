@@ -19,7 +19,7 @@ public abstract class DatabaseConnection {
         try {
             Class.forName(driver); // Locate Driver
             connection = DriverManager.getConnection(jdbcUrl, userName, password); // Reference Connection object
-            System.out.println("Connection successful!");
+            System.out.println("[MySQL] Successfully opened connection to database");
         } catch(Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -32,7 +32,7 @@ public abstract class DatabaseConnection {
     public static void closeConnection() {
         try {
             connection.close();
-            System.out.println("Connection closed!");
+            System.out.println("[MySQL] Successfully closed connection to database");
         } catch(Exception e) {
             System.out.println("Error:" + e.getMessage());
         }

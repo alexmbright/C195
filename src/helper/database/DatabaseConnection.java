@@ -3,7 +3,7 @@ package helper.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public abstract class DatabaseConnector {
+public abstract class DatabaseConnection {
 
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
@@ -23,6 +23,10 @@ public abstract class DatabaseConnector {
         } catch(Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    public static Connection getConnection() {
+        return connection;
     }
 
     public static void closeConnection() {

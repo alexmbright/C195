@@ -1,9 +1,9 @@
-package handler;
+package helper.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public abstract class DatabaseConnection {
+public abstract class DatabaseConnector {
 
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
@@ -15,15 +15,12 @@ public abstract class DatabaseConnection {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
-    public static void openConnection()
-    {
+    public static void openConnection() {
         try {
             Class.forName(driver); // Locate Driver
             connection = DriverManager.getConnection(jdbcUrl, userName, password); // Reference Connection object
             System.out.println("Connection successful!");
-        }
-        catch(Exception e)
-        {
+        } catch(Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
@@ -32,9 +29,7 @@ public abstract class DatabaseConnection {
         try {
             connection.close();
             System.out.println("Connection closed!");
-        }
-        catch(Exception e)
-        {
+        } catch(Exception e) {
             System.out.println("Error:" + e.getMessage());
         }
     }

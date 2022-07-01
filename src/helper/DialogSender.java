@@ -6,7 +6,7 @@ import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
 /**
- * Performs the use of dialog when needed.
+ * Sends dialog when needed.
  *
  * @author Alex Bright
  */
@@ -23,7 +23,6 @@ public class DialogSender {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(message);
-        alert.setContentText("Click OK to confirm.");
         Optional<ButtonType> option = alert.showAndWait();
         return option.isPresent() && option.get() == ButtonType.OK;
     }
@@ -38,7 +37,6 @@ public class DialogSender {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(message);
-        alert.setContentText("Click OK to close this window.");
         alert.show();
     }
 
@@ -52,7 +50,6 @@ public class DialogSender {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(message);
-        alert.setContentText("Click OK to close this window.");
         alert.show();
     }
 
@@ -66,7 +63,6 @@ public class DialogSender {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(message);
-        alert.setContentText("Click OK to close this window.");
         alert.show();
     }
 

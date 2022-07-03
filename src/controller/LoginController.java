@@ -68,6 +68,7 @@ public class LoginController implements Initializable {
             System.out.println("Username found, but password incorrect. Cancelling login...");
             return;
         }
+        UserDB.setCurrentUser(UserDB.getUser(username));
         System.out.println("Username and password match! Logging in...");
         DialogSender.inform(rb.getString("title"), "Username and password match!");
     }

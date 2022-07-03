@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="client_schedule@localhost" uuid="1b0dceb9-007a-420e-9132-35dacf6f81d1">
+    <data-source source="LOCAL" name="MySQL - client_schedule@localhost" uuid="9dd5d2ee-4f28-492d-b4af-fc7f81a1bbc0">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

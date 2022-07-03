@@ -8,6 +8,8 @@ import java.sql.SQLException;
 
 public class UserDB {
 
+    private static User currentUser;
+
     public static boolean passwordMatches(String username, String password) {
         try {
             String q = "select * from users where user_name = ? and password = ?";
@@ -59,6 +61,14 @@ public class UserDB {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
     }
 
 }

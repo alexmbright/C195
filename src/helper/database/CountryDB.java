@@ -1,4 +1,32 @@
 package helper.database;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Country;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class CountryDB {
+
+    public static ObservableList<Country> getAll() {
+        ObservableList<Country> countries = FXCollections.observableArrayList();
+        try {
+            String q = "select * from countries";
+            PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
+
+            ResultSet res = ps.executeQuery();
+            while (res.next()) {
+                int id = res.getInt("country_id");
+                String country = res.getString("country");
+
+                countries.add(new Country(id, country));
+            }
+        } catch (SQLException e) {
+            System.out.println("country getAll() error: " + e.getMessage());
+        }
+        return countries;
+    }
+
 }

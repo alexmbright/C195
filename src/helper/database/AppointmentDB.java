@@ -34,17 +34,15 @@ public class AppointmentDB {
                 int contactId = res.getInt("contact_id");
                 String contactName = res.getString("contact_name");
 
-                Appointment a = new Appointment(id, title, desc, location, type, start, end, customerId, userId, contactId, contactName);
-
-                appts.add(a);
+                appts.add(new Appointment(id, title, desc, location, type, start, end, customerId, userId, contactId, contactName));
             }
         } catch (SQLException e) {
-            System.out.println("getAll() error: " + e.getMessage());
+            System.out.println("appointment getAll() error: " + e.getMessage());
         }
         return appts;
     }
 
-    public static ObservableList<Appointment> getMonth() {
+    public static ObservableList<Appointment> getThisMonth() {
         ObservableList<Appointment> appts = FXCollections.observableArrayList();
         try {
             String q = "select a.*, c.contact_name from appointments a " +
@@ -77,7 +75,7 @@ public class AppointmentDB {
         return appts;
     }
 
-    public static ObservableList<Appointment> getWeek() {
+    public static ObservableList<Appointment> getThisWeek() {
         ObservableList<Appointment> appts = FXCollections.observableArrayList();
         try {
             String q = "select a.*, c.contact_name from appointments a " +

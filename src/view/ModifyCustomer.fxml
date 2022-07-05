@@ -7,34 +7,27 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
-            prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ModifyCustomerController">
-   <Label layoutX="56.0" layoutY="117.0" text="Name"/>
-   <TextField fx:id="nameField" layoutX="146.0" layoutY="113.0" prefHeight="26.0" prefWidth="198.0"
-              promptText="First Last"/>
-   <Label layoutX="56.0" layoutY="64.0" text="Please enter the updated customer information."/>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ModifyCustomerController">
+   <Label layoutX="56.0" layoutY="155.0" text="Name" />
+   <TextField fx:id="nameField" layoutX="146.0" layoutY="151.0" prefHeight="26.0" prefWidth="198.0" promptText="First Last" />
+   <Label layoutX="56.0" layoutY="64.0" text="Please update the customer information." />
    <Label layoutX="56.0" layoutY="44.0" text="Customer Modification">
       <font>
-         <Font name="System Bold" size="14.0"/>
+         <Font name="System Bold" size="14.0" />
       </font>
    </Label>
-   <Label layoutX="56.0" layoutY="155.0" text="Address"/>
-   <TextField fx:id="addressField" layoutX="146.0" layoutY="151.0" prefHeight="26.0" prefWidth="198.0"
-              promptText="123 ABC Street, City"/>
-   <Label layoutX="56.0" layoutY="194.0" text="Postal Code"/>
-   <TextField fx:id="postalField" layoutX="146.0" layoutY="190.0" prefHeight="26.0" prefWidth="198.0"
-              promptText="12345"/>
-   <TextField fx:id="phoneField" layoutX="146.0" layoutY="229.0" prefHeight="26.0" prefWidth="198.0"
-              promptText="+0123456789"/>
-   <Label layoutX="56.0" layoutY="233.0" text="Phone Number"/>
-   <Label fx:id="divisionLabel" layoutX="56.0" layoutY="309.0" text="Division"/>
-   <ComboBox fx:id="divisionCombo" layoutX="146.0" layoutY="305.0" onAction="#onDivisionSelect" prefHeight="26.0"
-             prefWidth="198.0" promptText="Select State/Province"/>
-   <Label layoutX="56.0" layoutY="271.0" text="Country"/>
-   <ComboBox fx:id="countryCombo" layoutX="146.0" layoutY="267.0" onAction="#onCountrySelect" prefHeight="26.0"
-             prefWidth="198.0" promptText="Select Country"/>
-   <Button fx:id="submitBtn" layoutX="290.0" layoutY="355.0" mnemonicParsing="false" onAction="#onSubmit"
-           text="Submit"/>
-   <Label fx:id="errorLabel" layoutX="146.0" layoutY="359.0" textFill="RED"/>
+   <Label layoutX="56.0" layoutY="193.0" text="Address" />
+   <TextField fx:id="addressField" layoutX="146.0" layoutY="189.0" prefHeight="26.0" prefWidth="198.0" promptText="123 ABC Street, City" />
+   <Label layoutX="56.0" layoutY="232.0" text="Postal Code" />
+   <TextField fx:id="postalField" layoutX="146.0" layoutY="228.0" prefHeight="26.0" prefWidth="198.0" promptText="12345" />
+   <TextField fx:id="phoneField" layoutX="146.0" layoutY="267.0" prefHeight="26.0" prefWidth="198.0" promptText="555-123-4567" />
+   <Label layoutX="56.0" layoutY="271.0" text="Phone Number" />
+   <Label fx:id="divisionLabel" layoutX="56.0" layoutY="347.0" text="Division" />
+   <ComboBox fx:id="divisionCombo" layoutX="146.0" layoutY="343.0" prefHeight="26.0" prefWidth="198.0" promptText="Select division" />
+   <Label layoutX="56.0" layoutY="309.0" text="Country" />
+   <ComboBox fx:id="countryCombo" layoutX="146.0" layoutY="305.0" prefHeight="26.0" prefWidth="198.0" promptText="Select country" />
+   <Button fx:id="submitBtn" layoutX="290.0" layoutY="393.0" mnemonicParsing="false" onAction="#onSubmit" text="Submit" />
+   <Label fx:id="errorLabel" layoutX="146.0" layoutY="359.0" textFill="RED" />
+   <Label layoutX="56.0" layoutY="117.0" text="ID" />
+   <TextField disable="true" editable="false" layoutX="146.0" layoutY="113.0" prefHeight="26.0" prefWidth="198.0" />
 </AnchorPane>

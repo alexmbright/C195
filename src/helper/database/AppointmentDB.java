@@ -15,9 +15,9 @@ public class AppointmentDB {
     public static ObservableList<Appointment> getAll() {
         ObservableList<Appointment> appts = FXCollections.observableArrayList();
         try {
-            String q = "select a.*, c.contact_name from appointments a " +
-                    "left join contacts c on a.contact_id = c.contact_id " +
-                    "order by appointment_id";
+            String q = "select a.*, co.contact_name from appointments a " +
+                    "left join contacts co on a.contact_id = co.contact_id " +
+                    "order by a.appointment_id";
             PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
 
             ResultSet res = ps.executeQuery();
@@ -29,12 +29,12 @@ public class AppointmentDB {
                 String type = res.getString("type");
                 LocalDateTime start = res.getTimestamp("start").toLocalDateTime();
                 LocalDateTime end = res.getTimestamp("end").toLocalDateTime();
-                int customerId = res.getInt("customer_id");
+                int customer = res.getInt("customer_id");
                 int userId = res.getInt("user_id");
                 int contactId = res.getInt("contact_id");
                 String contactName = res.getString("contact_name");
 
-                appts.add(new Appointment(id, title, desc, location, type, start, end, customerId, userId, contactId, contactName));
+                appts.add(new Appointment(id, title, desc, location, type, start, end, customer, userId, contactId, contactName));
             }
         } catch (SQLException e) {
             System.out.println("appointment getAll() error: " + e.getMessage());
@@ -45,10 +45,10 @@ public class AppointmentDB {
     public static ObservableList<Appointment> getThisMonth() {
         ObservableList<Appointment> appts = FXCollections.observableArrayList();
         try {
-            String q = "select a.*, c.contact_name from appointments a " +
-                    "left join contacts c on a.contact_id = c.contact_id " +
-                    "where month(start) = month(now()) and year(start) = year(now()) " +
-                    "order by appointment_id";
+            String q = "select a.*, co.contact_name from appointments a " +
+                    "left join contacts co on a.contact_id = co.contact_id " +
+                    "where month(a.start) = month(now()) and year(a.start) = year(now()) " +
+                    "order by a.appointment_id";
             PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
 
             ResultSet res = ps.executeQuery();
@@ -60,17 +60,17 @@ public class AppointmentDB {
                 String type = res.getString("type");
                 LocalDateTime start = res.getTimestamp("start").toLocalDateTime();
                 LocalDateTime end = res.getTimestamp("end").toLocalDateTime();
-                int customerId = res.getInt("customer_id");
+                int customer = res.getInt("customer_id");
                 int userId = res.getInt("user_id");
                 int contactId = res.getInt("contact_id");
                 String contactName = res.getString("contact_name");
 
-                Appointment a = new Appointment(id, title, desc, location, type, start, end, customerId, userId, contactId, contactName);
+                Appointment a = new Appointment(id, title, desc, location, type, start, end, customer, userId, contactId, contactName);
 
                 appts.add(a);
             }
         } catch (SQLException e) {
-            System.out.println("getMonth() error: " + e.getMessage());
+            System.out.println("getThisMonth() error: " + e.getMessage());
         }
         return appts;
     }
@@ -78,10 +78,10 @@ public class AppointmentDB {
     public static ObservableList<Appointment> getThisWeek() {
         ObservableList<Appointment> appts = FXCollections.observableArrayList();
         try {
-            String q = "select a.*, c.contact_name from appointments a " +
-                    "left join contacts c on a.contact_id = c.contact_id " +
-                    "where yearweek(start) = yearweek(now()) " +
-                    "order by appointment_id";
+            String q = "select a.*, co.contact_name from appointments a " +
+                    "left join contacts co on a.contact_id = co.contact_id " +
+                    "where yearweek(a.start) = yearweek(now()) " +
+                    "order by a.appointment_id";
             PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
 
             ResultSet res = ps.executeQuery();
@@ -93,17 +93,17 @@ public class AppointmentDB {
                 String type = res.getString("type");
                 LocalDateTime start = res.getTimestamp("start").toLocalDateTime();
                 LocalDateTime end = res.getTimestamp("end").toLocalDateTime();
-                int customerId = res.getInt("customer_id");
+                int customer = res.getInt("customer_id");
                 int userId = res.getInt("user_id");
                 int contactId = res.getInt("contact_id");
                 String contactName = res.getString("contact_name");
 
-                Appointment a = new Appointment(id, title, desc, location, type, start, end, customerId, userId, contactId, contactName);
+                Appointment a = new Appointment(id, title, desc, location, type, start, end, customer, userId, contactId, contactName);
 
                 appts.add(a);
             }
         } catch (SQLException e) {
-            System.out.println("getWeek() error: " + e.getMessage());
+            System.out.println("getThisWeek() error: " + e.getMessage());
         }
         return appts;
     }

@@ -34,7 +34,7 @@ public abstract class DatabaseConnection {
             connection.close();
             System.out.println("[MySQL] Successfully closed connection to database");
         } catch(Exception e) {
-            System.out.println("Error:" + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 

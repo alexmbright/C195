@@ -13,7 +13,10 @@ public class CustomerDB {
     public static ObservableList<Customer> getAll() {
         ObservableList<Customer> customers = FXCollections.observableArrayList();
         try {
-            String q = "select * from customers";
+            String q = "select cu.*, d.division, c.country from customers cu " +
+                    "left join first_level_divisions d on cu.division_id = d.division_id " +
+                    "left join countries c on d.country_id = c.country_id " +
+                    "order by cu.customer_id";
             PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
 
             ResultSet res = ps.executeQuery();
@@ -23,9 +26,10 @@ public class CustomerDB {
                 String address = res.getString("address");
                 String postal = res.getString("postal_code");
                 String phone = res.getString("phone");
-                int division = res.getInt("division_id");
+                String division = res.getString("division");
+                String country = res.getString("country");
 
-                customers.add(new Customer(id, name, address, postal, phone, division));
+                customers.add(new Customer(id, name, address, postal, phone, division, country));
             }
         } catch (SQLException e) {
             System.out.println("customer getAll() error: " + e.getMessage());
@@ -35,7 +39,11 @@ public class CustomerDB {
 
     public static Customer getCustomer(int id) {
         try {
-            String q = "select * from customers where customer_id = ?";
+            String q = "select cu.*, d.division, c.country from customers cu " +
+                    "left join first_level_divisions d on cu.division_id = d.division_id " +
+                    "left join countries c on d.country_id = c.country_id " +
+                    "where cu.customer_id = ? " +
+                    "order by cu.customer_id";
             PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
             ps.setInt(1, id);
 
@@ -45,9 +53,10 @@ public class CustomerDB {
                 String address = res.getString("address");
                 String postal = res.getString("postal_code");
                 String phone = res.getString("phone");
-                int division = res.getInt("division_id");
+                String division = res.getString("division");
+                String country = res.getString("country");
 
-                return new Customer(id, name, address, postal, phone, division);
+                return new Customer(id, name, address, postal, phone, division, country);
             }
         } catch (SQLException e) {
             System.out.println("getCustomer() error: " + e.getMessage());
@@ -69,7 +78,11 @@ public class CustomerDB {
             ps.setString(6, UserDB.getCurrentUser().getUsername());
             ps.setInt(7, division);
 
-            return ps.executeUpdate();
+            if (ps.executeUpdate() > 0) {
+                ps = DatabaseConnection.getConnection().prepareStatement("select last_insert_id() from customers");
+                ResultSet res = ps.executeQuery();
+                if (res.next()) return res.getInt(1);
+            }
         } catch (SQLException e) {
             System.out.println("customer add() error: " + e.getMessage());
         }

@@ -2,12 +2,17 @@ package controller;
 
 import helper.DialogSender;
 import helper.database.UserDB;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,6 +21,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -44,7 +50,7 @@ public class LoginController implements Initializable {
         locationLabel.setText(resourceBundle.getString("locationLabel"));
     }
 
-    public void onSubmit(MouseEvent mouseEvent) {
+    public void onSubmit(ActionEvent actionEvent) {
         System.out.println("Submitting login info...");
         String username = usernameField.getText();
         String password = passwordField.getText();
@@ -70,14 +76,22 @@ public class LoginController implements Initializable {
         }
         UserDB.setCurrentUser(UserDB.getUser(username));
         System.out.println("Username and password match! Logging in...");
-        DialogSender.inform(rb.getString("title"), "Username and password match!");
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/View.fxml")));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void log(boolean success, String username, String password) {
         try {
             FileWriter fw = new FileWriter("login_activity.txt", true);
             PrintWriter pw = new PrintWriter(fw);
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm:ss a");
             String time = LocalDateTime.now().format(dtf);
             pw.println(time + (success ? " [SUCCESS] " : " [FAILURE] ") + "username: \"" + username + "\", password: \"" + password + "\"");
             pw.close();

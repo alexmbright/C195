@@ -30,7 +30,7 @@ public class DivisionDB {
         return divisions;
     }
 
-    public static ObservableList<Division> getByCountry(int id) {
+    public static ObservableList<Division> getAllByCountry(int id) {
         ObservableList<Division> divisions = FXCollections.observableArrayList();
         try {
             String q = "select * from first_level_divisions where country_id = ?";

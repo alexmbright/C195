@@ -1,13 +1,14 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Appointment {
 
     private int id;
     private String title;
-    private String desc;
-    private String loc;
+    private String description;
+    private String location;
     private String type;
     private LocalDateTime start;
     private LocalDateTime end;
@@ -16,11 +17,11 @@ public class Appointment {
     private int contactId;
     private String contactName;
 
-    public Appointment(int id, String title, String desc, String loc, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, int contactId, String contactName) {
+    public Appointment(int id, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, int customerId, int userId, int contactId, String contactName) {
         this.id = id;
         this.title = title;
-        this.desc = desc;
-        this.loc = loc;
+        this.description = description;
+        this.location = location;
         this.type = type;
         this.start = start;
         this.end = end;
@@ -46,20 +47,20 @@ public class Appointment {
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getLoc() {
-        return loc;
+    public String getLocation() {
+        return location;
     }
 
-    public void setLoc(String loc) {
-        this.loc = loc;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getType() {
@@ -116,5 +117,13 @@ public class Appointment {
 
     public void setContactName(String contactName) {
         this.contactName = contactName;
+    }
+
+    public String getFormattedStart() {
+        return start.format(DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a"));
+    }
+
+    public String getFormattedEnd() {
+        return end.format(DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a"));
     }
 }

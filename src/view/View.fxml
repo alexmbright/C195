@@ -11,60 +11,64 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
-         prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17"
-         xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewController">
     <Tab fx:id="appointmentTab" text="Appointments">
         <AnchorPane minHeight="0.0" minWidth="0.0">
-            <TableView fx:id="appointmentTable" layoutX="50.0" layoutY="50.0" prefHeight="350.0"
-                       prefWidth="700.0">
+            <TableView fx:id="appointmentTable" layoutX="50.0" layoutY="50.0" prefHeight="350.0" prefWidth="900.0">
                 <columns>
-                    <TableColumn prefWidth="75.0" text="C1"/>
-                    <TableColumn prefWidth="75.0" text="C2"/>
+                    <TableColumn fx:id="aIdCol" editable="false" prefWidth="53.60003662109375" text="ID" />
+                    <TableColumn fx:id="aTitleCol" editable="false" prefWidth="109.59991455078125" text="Title" />
+               <TableColumn fx:id="aDescriptionCol" editable="false" prefWidth="102.4000244140625" text="Description" />
+               <TableColumn fx:id="aLocationCol" editable="false" prefWidth="90.4000244140625" text="Location" />
+               <TableColumn fx:id="aContactCol" editable="false" prefWidth="91.2001953125" text="Contact" />
+               <TableColumn fx:id="aTypeCol" editable="false" prefWidth="88.800048828125" text="Type" />
+               <TableColumn fx:id="aStartCol" editable="false" prefWidth="97.5999755859375" text="Start" />
+               <TableColumn fx:id="aEndCol" editable="false" prefWidth="93.5999755859375" text="End" />
+               <TableColumn fx:id="aCustomerCol" editable="false" prefWidth="93.5999755859375" text="Customer" />
+               <TableColumn fx:id="aUserCol" editable="false" prefWidth="74.4000244140625" text="User ID" />
                 </columns>
             </TableView>
-            <RadioButton fx:id="aViewAllRadio" layoutX="256.0" layoutY="20.0" mnemonicParsing="false"
-                         selected="true" text="View All">
+            <RadioButton fx:id="aViewAllRadio" layoutX="468.0" layoutY="20.0" mnemonicParsing="false" onAction="#onViewAll" selected="true" text="View All">
                 <toggleGroup>
-                    <ToggleGroup fx:id="aViewByToggle"/>
+                    <ToggleGroup fx:id="aViewByToggle" />
                 </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="aViewMonthRadio" layoutX="605.0" layoutY="20.0" mnemonicParsing="false"
-                         text="View By Current Month" toggleGroup="$aViewByToggle"/>
-            <RadioButton fx:id="aViewWeekRadio" layoutX="393.0" layoutY="20.0" mnemonicParsing="false"
-                         text="View By Current Week" toggleGroup="$aViewByToggle"/>
+            <RadioButton fx:id="aViewMonthRadio" layoutX="804.0" layoutY="20.0" mnemonicParsing="false" onAction="#onViewMonth" text="View By Current Month" toggleGroup="$aViewByToggle" />
+            <RadioButton fx:id="aViewWeekRadio" layoutX="600.0" layoutY="20.0" mnemonicParsing="false" onAction="#onViewWeek" text="View By Current Week" toggleGroup="$aViewByToggle" />
             <Label layoutX="50.0" layoutY="20.0" text="Scheduled Appointments">
                 <font>
-                    <Font name="System Bold" size="12.0"/>
+                    <Font name="System Bold" size="12.0" />
                 </font>
             </Label>
-            <Button fx:id="aScheduleBtn" layoutX="50.0" layoutY="420.0" mnemonicParsing="false"
-                    onAction="#onAddAppointment" text="Schedule New Appointment"/>
-            <Button fx:id="aModifyBtn" layoutX="478.0" layoutY="420.0" mnemonicParsing="false"
-                    onAction="#onModifyAppointment" text="Modify Appointment"/>
-            <Button fx:id="aDeleteBtn" layoutX="626.0" layoutY="420.0" mnemonicParsing="false"
-                    onAction="#onDeleteAppointment" text="Delete Appointment"/>
+            <Button fx:id="aScheduleBtn" layoutX="50.0" layoutY="420.0" mnemonicParsing="false" onAction="#onAddAppointment" text="Schedule New Appointment" />
+            <Button fx:id="aModifyBtn" layoutX="677.0" layoutY="420.0" mnemonicParsing="false" onAction="#onModifyAppointment" text="Modify Appointment" />
+            <Button fx:id="aDeleteBtn" layoutX="826.0" layoutY="420.0" mnemonicParsing="false" onAction="#onDeleteAppointment" text="Delete Appointment" />
         </AnchorPane>
     </Tab>
     <Tab fx:id="customerTab" text="Customers">
         <AnchorPane minHeight="0.0" minWidth="0.0">
-            <TableView fx:id="customerTable" layoutX="50.0" layoutY="50.0" prefHeight="350.0" prefWidth="700.0">
+            <TableView fx:id="customerTable" layoutX="50.0" layoutY="50.0" prefHeight="350.0" prefWidth="900.0">
                 <columns>
-                    <TableColumn prefWidth="75.0" text="C1"/>
-                    <TableColumn prefWidth="75.0" text="C2"/>
+                    <TableColumn fx:id="cIdCol" editable="false" prefWidth="64.800048828125" text="ID" />
+                    <TableColumn fx:id="cNameCol" editable="false" prefWidth="135.199951171875" text="Name" />
+               <TableColumn fx:id="cAddressCol" editable="false" prefWidth="200.7999267578125" text="Address" />
+               <TableColumn fx:id="cPostalCol" editable="false" prefWidth="95.9998779296875" text="Postal Code" />
+               <TableColumn fx:id="cDivisionCol" editable="false" prefWidth="122.39990234375" text="Division" />
+               <TableColumn fx:id="cCountryCol" editable="false" prefWidth="116.7999267578125" text="Country" />
+               <TableColumn fx:id="cPhoneCol" editable="false" prefWidth="162.4000244140625" text="Phone Number" />
                 </columns>
             </TableView>
-            <Button fx:id="cAddBtn" layoutX="50.0" layoutY="420.0" mnemonicParsing="false"
-                    onAction="#onAddCustomer" text="Register New Customer"/>
-            <Button fx:id="cDeleteBtn" layoutX="636.0" layoutY="420.0" mnemonicParsing="false"
-                    onAction="#onDeleteCustomer" text="Remove Customer"/>
-            <Button fx:id="cModifyBtn" layoutX="507.0" layoutY="420.0" mnemonicParsing="false"
-                    onAction="#onModifyCustomer" text="Modify Customer"/>
+            <Button fx:id="cAddBtn" layoutX="50.0" layoutY="420.0" mnemonicParsing="false" onAction="#onAddCustomer" text="Register New Customer" />
+            <Button fx:id="cDeleteBtn" layoutX="836.0" layoutY="420.0" mnemonicParsing="false" onAction="#onDeleteCustomer" text="Remove Customer" />
+            <Button fx:id="cModifyBtn" layoutX="706.0" layoutY="420.0" mnemonicParsing="false" onAction="#onModifyCustomer" text="Modify Customer" />
             <Label layoutX="50.0" layoutY="20.0" text="Customer Register">
                 <font>
-                    <Font name="System Bold" size="12.0"/>
+                    <Font name="System Bold" size="12.0" />
                 </font>
             </Label>
         </AnchorPane>
+    </Tab>
+    <Tab fx:id="reportTab" text="Reports">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
     </Tab>
 </TabPane>

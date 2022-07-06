@@ -7,6 +7,7 @@ import helper.database.CustomerDB;
 import helper.database.UserDB;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -31,25 +32,42 @@ import java.util.ResourceBundle;
  */
 public class AppointmentController implements Initializable {
 
-    public Label headerLabel;
-    public Label headerDescLabel;
+    @FXML
+    private Label headerLabel;
+    @FXML
+    private Label headerDescLabel;
 
-    public TextField idField;
-    public TextField titleField;
-    public TextField descField;
-    public TextField locField;
-    public ComboBox<Contact> contactCombo;
-    public TextField typeField;
-    public DatePicker startPicker;
-    public ComboBox<String> startCombo;
-    public DatePicker endPicker;
-    public ComboBox<String> endCombo;
-    public ComboBox<Customer> customerCombo;
-    public ComboBox<User> userCombo;
+    @FXML
+    private TextField idField;
+    @FXML
+    private TextField titleField;
+    @FXML
+    private TextField descField;
+    @FXML
+    private TextField locField;
+    @FXML
+    private ComboBox<Contact> contactCombo;
+    @FXML
+    private TextField typeField;
+    @FXML
+    private DatePicker startPicker;
+    @FXML
+    private ComboBox<String> startCombo;
+    @FXML
+    private DatePicker endPicker;
+    @FXML
+    private ComboBox<String> endCombo;
+    @FXML
+    private ComboBox<Customer> customerCombo;
+    @FXML
+    private ComboBox<User> userCombo;
 
-    public Button submitBtn;
-    public Button cancelBtn;
-    public Label errorLabel;
+    @FXML
+    private Button submitBtn;
+    @FXML
+    private Button cancelBtn;
+    @FXML
+    private Label errorLabel;
 
     private boolean update;
 
@@ -60,10 +78,9 @@ public class AppointmentController implements Initializable {
      * <p>
      *     The lambda expression found in <code>cancelBtn.setOnAction()</code> defines the
      *     functionality of the Cancel button located on the Appointment form.
-     * </p>
      *
-     * @param url
-     * @param resourceBundle
+     * @param url url
+     * @param resourceBundle resource bundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -151,7 +168,7 @@ public class AppointmentController implements Initializable {
      * and successful insert/update in the database.
      * If successful, returns to the main screen with a dialog box.
      *
-     * @param actionEvent
+     * @param actionEvent action event
      */
     public void onSubmit(ActionEvent actionEvent) {
         errorLabel.setText("");

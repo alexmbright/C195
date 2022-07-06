@@ -17,7 +17,6 @@ import java.util.ResourceBundle;
  *         <li><code>ViewController.initialize()</code></li>
  *         <li><code>LoginController.showUpcoming()</code></li>
  *     </ul>
- * </p>
  * <p>
  *     There are 10+ lambda expressions in my code and the requirements
  *     specify at least <b>two</b>, so I have listed two that I find most
@@ -25,7 +24,6 @@ import java.util.ResourceBundle;
  *     <br/>
  *     However, I will also be pointing out and briefly explaining the rest of
  *     the lambda expressions, as listed below.
- * </p>
  * <p>
  *     The remaining lambda expression locations:
  *     <ul>
@@ -33,7 +31,6 @@ import java.util.ResourceBundle;
  *         <li>7 in <code>ViewController.initialize()</code></li>
  *         <li>2 in <code>CustomerController.initialize()</code></li>
  *     </ul>
- * </p>
  *
  * @author Alex Bright
  * */
@@ -45,7 +42,7 @@ public class Main extends Application {
      * The entry point of the Java program.
      * Handles opening and closing of the database, and launching the JavaFX program.
      *
-     * @param args
+     * @param args args
      */
     public static void main(String[] args) {
         DatabaseConnection.openConnection();
@@ -57,8 +54,8 @@ public class Main extends Application {
      * Launches the Scheduling System application.
      * Defines resource bundle for English/French translation.
      *
-     * @param stage
-     * @throws Exception
+     * @param stage stage
+     * @throws Exception exception
      */
     @Override
     public void start(Stage stage) throws Exception {

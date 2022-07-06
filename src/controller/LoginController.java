@@ -5,6 +5,7 @@ import helper.database.AppointmentDB;
 import helper.database.UserDB;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -34,14 +35,22 @@ import java.util.ResourceBundle;
  */
 public class LoginController implements Initializable {
 
-    public Label loginLabel;
-    public Label usernameLabel;
-    public Label passwordLabel;
-    public TextField usernameField;
-    public PasswordField passwordField;
-    public Button submitBtn;
-    public Label locationLabel;
-    public Label zoneIdLabel;
+    @FXML
+    private Label loginLabel;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private Label passwordLabel;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private Button submitBtn;
+    @FXML
+    private Label locationLabel;
+    @FXML
+    private Label zoneIdLabel;
 
     private ResourceBundle rb;
 
@@ -50,7 +59,7 @@ public class LoginController implements Initializable {
      * This method determines the user's location and displays in the form.
      * It also translates all login screen messages using provided resource bundle.
      *
-     * @param url
+     * @param url url
      * @param resourceBundle resource bundle used for language translation
      */
     @Override
@@ -70,7 +79,7 @@ public class LoginController implements Initializable {
      * Validates and logs input on submit button click.
      * On successful login, switches to View screen and calls <code>showUpcoming()</code> method to display upcoming appointments.
      *
-     * @param actionEvent
+     * @param actionEvent action event
      */
     public void onSubmit(ActionEvent actionEvent) {
         System.out.println("Submitting login info...");
@@ -119,7 +128,6 @@ public class LoginController implements Initializable {
      *     <b>Lambda expression:</b> I used the forEach lambda expression to append all upcoming appointment
      *     information to a StringBuilder for display. This allows for more efficiency as I don't need to
      *     loop through and create separate String instances for each iteration.
-     * </p>
      */
     public void showUpcoming() {
         ObservableList<Appointment> upcoming = AppointmentDB.getUpcoming();

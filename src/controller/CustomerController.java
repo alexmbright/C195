@@ -5,6 +5,7 @@ import helper.database.CountryDB;
 import helper.database.CustomerDB;
 import helper.database.DivisionDB;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -29,22 +30,35 @@ import java.util.ResourceBundle;
  */
 public class CustomerController implements Initializable {
 
-    public Label headerLabel;
-    public Label descLabel;
+    @FXML
+    private Label headerLabel;
+    @FXML
+    private Label descLabel;
 
-    public TextField idField;
-    public TextField nameField;
-    public TextField addressField;
-    public TextField postalField;
-    public TextField phoneField;
+    @FXML
+    private TextField idField;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextField addressField;
+    @FXML
+    private TextField postalField;
+    @FXML
+    private TextField phoneField;
 
-    public Label divisionLabel;
-    public ComboBox<Division> divisionCombo;
-    public ComboBox<Country> countryCombo;
+    @FXML
+    private Label divisionLabel;
+    @FXML
+    private ComboBox<Division> divisionCombo;
+    @FXML
+    private ComboBox<Country> countryCombo;
 
-    public Button submitBtn;
-    public Button cancelBtn;
-    public Label errorLabel;
+    @FXML
+    private Button submitBtn;
+    @FXML
+    private Button cancelBtn;
+    @FXML
+    private Label errorLabel;
 
     private boolean update;
 
@@ -58,10 +72,9 @@ public class CustomerController implements Initializable {
      *     the Division ComboBox (and displays it when Country is first selected).
      *     The second one defines the functionality of the Cancel button, which returns the
      *     user to the View screen on confirmation.
-     * </p>
      *
-     * @param url
-     * @param resourceBundle
+     * @param url url
+     * @param resourceBundle resource bundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -154,7 +167,7 @@ public class CustomerController implements Initializable {
      * This method checks for blank input fields and successful insert/update in the database.
      * If successful, returns to the main screen with a dialog box.
      *
-     * @param actionEvent
+     * @param actionEvent action event
      */
     public void onSubmit(ActionEvent actionEvent) {
         String error = "";

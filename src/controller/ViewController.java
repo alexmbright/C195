@@ -8,6 +8,7 @@ import helper.database.UserDB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -31,70 +32,123 @@ import java.util.ResourceBundle;
  * @author Alex Bright
  */
 public class ViewController implements Initializable {
-    
-    public TabPane tabPane;
-    public Tab customerTab;
-    public Tab reportTab;
-    public Tab appointmentTab;
+
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private Tab customerTab;
+    @FXML
+    private Tab reportTab;
+    @FXML
+    private Tab appointmentTab;
     
     // Appointment tab
-    public TableView<Appointment> appointmentTable;
-    public TableColumn<Appointment, Integer> aIdCol;
-    public TableColumn<Appointment, String> aTitleCol;
-    public TableColumn<Appointment, String> aDescriptionCol;
-    public TableColumn<Appointment, String> aLocationCol;
-    public TableColumn<Appointment, String> aContactCol;
-    public TableColumn<Appointment, String> aTypeCol;
-    public TableColumn<Appointment, String> aStartCol;
-    public TableColumn<Appointment, String> aEndCol;
-    public TableColumn<Appointment, Integer> aCustomerCol;
-    public TableColumn<Appointment, Integer> aUserCol;
-    public RadioButton aViewAllRadio;
-    public ToggleGroup aViewByToggle;
-    public RadioButton aViewMonthRadio;
-    public RadioButton aViewWeekRadio;
-    public Button aScheduleBtn;
-    public Button aUpdateBtn;
-    public Button aCancelBtn;
+    @FXML
+    private TableView<Appointment> appointmentTable;
+    @FXML
+    private TableColumn<Appointment, Integer> aIdCol;
+    @FXML
+    private TableColumn<Appointment, String> aTitleCol;
+    @FXML
+    private TableColumn<Appointment, String> aDescriptionCol;
+    @FXML
+    private TableColumn<Appointment, String> aLocationCol;
+    @FXML
+    private TableColumn<Appointment, String> aContactCol;
+    @FXML
+    private TableColumn<Appointment, String> aTypeCol;
+    @FXML
+    private TableColumn<Appointment, String> aStartCol;
+    @FXML
+    private TableColumn<Appointment, String> aEndCol;
+    @FXML
+    private TableColumn<Appointment, Integer> aCustomerCol;
+    @FXML
+    private TableColumn<Appointment, Integer> aUserCol;
+    @FXML
+    private RadioButton aViewAllRadio;
+    @FXML
+    private ToggleGroup aViewByToggle;
+    @FXML
+    private RadioButton aViewMonthRadio;
+    @FXML
+    private RadioButton aViewWeekRadio;
+    @FXML
+    private Button aScheduleBtn;
+    @FXML
+    private Button aUpdateBtn;
+    @FXML
+    private Button aCancelBtn;
 
     // Customer tab
-    public TableView<Customer> customerTable;
-    public TableColumn<Customer, Integer> cIdCol;
-    public TableColumn<Customer, String> cNameCol;
-    public TableColumn<Customer, String> cAddressCol;
-    public TableColumn<Customer, String> cPostalCol;
-    public TableColumn<Customer, String> cPhoneCol;
-    public TableColumn<Customer, Division> cDivisionCol;
-    public TableColumn<Customer, Country> cCountryCol;
-    public Button cAddBtn;
-    public Button cDeleteBtn;
-    public Button cUpdateBtn;
+    @FXML
+    private TableView<Customer> customerTable;
+    @FXML
+    private TableColumn<Customer, Integer> cIdCol;
+    @FXML
+    private TableColumn<Customer, String> cNameCol;
+    @FXML
+    private TableColumn<Customer, String> cAddressCol;
+    @FXML
+    private TableColumn<Customer, String> cPostalCol;
+    @FXML
+    private TableColumn<Customer, String> cPhoneCol;
+    @FXML
+    private TableColumn<Customer, Division> cDivisionCol;
+    @FXML
+    private TableColumn<Customer, Country> cCountryCol;
+    @FXML
+    private Button cAddBtn;
+    @FXML
+    private Button cDeleteBtn;
+    @FXML
+    private Button cUpdateBtn;
     
     // Type month report
-    public ComboBox<String> tmTypeCombo;
-    public ComboBox<String> tmMonthCombo;
-    public Button tmCalcBtn;
-    public Label tmCalcLabel;
+    @FXML
+    private ComboBox<String> tmTypeCombo;
+    @FXML
+    private ComboBox<String> tmMonthCombo;
+    @FXML
+    private Button tmCalcBtn;
+    @FXML
+    private Label tmCalcLabel;
 
     // Contact schedule report
-    public ComboBox<Contact> acCombo;
-    public TableView<Appointment> apptContactTable;
-    public TableColumn<Appointment, Integer> acIdCol;
-    public TableColumn<Appointment, String> acTitleCol;
-    public TableColumn<Appointment, String> acDescCol;
-    public TableColumn<Appointment, String> acLocCol;
-    public TableColumn<Appointment, String> acContactCol;
-    public TableColumn<Appointment, String> acTypeCol;
-    public TableColumn<Appointment, String> acStartCol;
-    public TableColumn<Appointment, String> acEndCol;
-    public TableColumn<Appointment, Integer> acCustomerCol;
-    public TableColumn<Appointment, Integer> acUserCol;
+    @FXML
+    private ComboBox<Contact> acCombo;
+    @FXML
+    private TableView<Appointment> apptContactTable;
+    @FXML
+    private TableColumn<Appointment, Integer> acIdCol;
+    @FXML
+    private TableColumn<Appointment, String> acTitleCol;
+    @FXML
+    private TableColumn<Appointment, String> acDescCol;
+    @FXML
+    private TableColumn<Appointment, String> acLocCol;
+    @FXML
+    private TableColumn<Appointment, String> acContactCol;
+    @FXML
+    private TableColumn<Appointment, String> acTypeCol;
+    @FXML
+    private TableColumn<Appointment, String> acStartCol;
+    @FXML
+    private TableColumn<Appointment, String> acEndCol;
+    @FXML
+    private TableColumn<Appointment, Integer> acCustomerCol;
+    @FXML
+    private TableColumn<Appointment, Integer> acUserCol;
 
     // User customer report
-    public ComboBox<User> ucUserCombo;
-    public ComboBox<Customer> ucCustCombo;
-    public Button ucCalcBtn;
-    public Label ucCalcLabel;
+    @FXML
+    private ComboBox<User> ucUserCombo;
+    @FXML
+    private ComboBox<Customer> ucCustCombo;
+    @FXML
+    private Button ucCalcBtn;
+    @FXML
+    private Label ucCalcLabel;
 
     /**
      * Initializes the ViewController.
@@ -107,7 +161,6 @@ public class ViewController implements Initializable {
      *     and more efficient code. It is more readable because it simplifies the for-each loop into a single line
      *     that can be read like a normal line of words.
      *     ("In the stream of month values, each month's name will be added to the list of months.")
-     * </p>
      * <p>
      *     The remaining lambda expressions define functionalities for various GUI items.
      *     These functionalities include:
@@ -118,10 +171,9 @@ public class ViewController implements Initializable {
      *         <li>Each View Radio Button for Appointments (all, month, week)</li>
      *         <li>Report tab selection (to reset report selections)</li>
      *     </ul>
-     * </p>
      *
-     * @param url
-     * @param resourceBundle
+     * @param url url
+     * @param resourceBundle resource bundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -279,7 +331,7 @@ public class ViewController implements Initializable {
      * On button click, switches to schedule appointment form.
      * This method validates selection and launches Appointment form.
      *
-     * @param actionEvent
+     * @param actionEvent action event
      */
     public void onAddAppointment(ActionEvent actionEvent) {
         if (CustomerDB.getAll().size() == 0) {
@@ -302,7 +354,7 @@ public class ViewController implements Initializable {
      * This method validates selection and calls populate() method inside controller
      * to pre-populate all fields with selected appointment information.
      *
-     * @param actionEvent
+     * @param actionEvent action event
      */
     public void onUpdateAppointment(ActionEvent actionEvent) {
         if (AppointmentDB.getAll().size() == 0) {
@@ -330,7 +382,7 @@ public class ViewController implements Initializable {
      * This method validates selection and attempts to delete from the database.
      * On successful deletion, refresh appointment table and display proper dialog box.
      *
-     * @param actionEvent
+     * @param actionEvent action event
      */
     public void onCancelAppointment(ActionEvent actionEvent) {
         if (AppointmentDB.getAll().size() == 0) {
@@ -358,7 +410,7 @@ public class ViewController implements Initializable {
     /**
      * On button click, switches to customer registration form.
      *
-     * @param actionEvent
+     * @param actionEvent action event
      */
     public void onAddCustomer(ActionEvent actionEvent) {
         try {
@@ -377,7 +429,7 @@ public class ViewController implements Initializable {
      * This method validates selection and calls populate() method inside controller
      * to pre-populate all fields with selected customer information.
      *
-     * @param actionEvent
+     * @param actionEvent action event
      */
     public void onUpdateCustomer(ActionEvent actionEvent) {
         if (CustomerDB.getAll().size() == 0) {
@@ -406,7 +458,7 @@ public class ViewController implements Initializable {
      * then attempts to delete customer from database.
      * On successful deletion, refresh customer table and display proper dialog box.
      *
-     * @param actionEvent
+     * @param actionEvent action event
      */
     public void onDeleteCustomer(ActionEvent actionEvent) {
         if (CustomerDB.getAll().size() == 0) {

@@ -29,20 +29,38 @@ public class CountryDB {
         return countries;
     }
 
-    public static Country getByDivision(int id) {
+    public static Country get(int id) {
         try {
-            String q = "select c.* from countries c " +
-                    "inner join first_level_divisions d on c.country_id = d.country_id " +
-                    "where d.division_id = ?";
+            String q = "select * from countries " +
+                    "where country_id = ?";
             PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
             ps.setInt(1, id);
 
             ResultSet res = ps.executeQuery();
             if (res.next()) {
-                int countryId = res.getInt("country_id");
                 String country = res.getString("country");
 
-                return new Country(countryId, country);
+                return new Country(id, country);
+            }
+        } catch (SQLException e) {
+            System.out.println("country getByDivision() error: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static Country get(String country) {
+        try {
+            String q = "select * from countries " +
+                    "where country = ?";
+            PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
+            ps.setString(1, country);
+
+            ResultSet res = ps.executeQuery();
+            if (res.next()) {
+                int id = res.getInt("country_id");
+                country = res.getString("country");
+
+                return new Country(id, country);
             }
         } catch (SQLException e) {
             System.out.println("country getByDivision() error: " + e.getMessage());

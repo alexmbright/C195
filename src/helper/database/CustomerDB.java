@@ -29,7 +29,7 @@ public class CustomerDB {
                 String division = res.getString("division");
                 String country = res.getString("country");
 
-                customers.add(new Customer(id, name, address, postal, phone, division, country));
+                customers.add(new Customer(id, name, address, postal, phone, DivisionDB.get(division), CountryDB.get(country)));
             }
         } catch (SQLException e) {
             System.out.println("customer getAll() error: " + e.getMessage());
@@ -56,7 +56,7 @@ public class CustomerDB {
                 String division = res.getString("division");
                 String country = res.getString("country");
 
-                return new Customer(id, name, address, postal, phone, division, country);
+                return new Customer(id, name, address, postal, phone, DivisionDB.get(division), CountryDB.get(country));
             }
         } catch (SQLException e) {
             System.out.println("getCustomer() error: " + e.getMessage());
@@ -101,6 +101,7 @@ public class CustomerDB {
             ps.setString(4, phone);
             ps.setString(5, UserDB.getCurrentUser().getUsername());
             ps.setInt(6, division);
+            ps.setInt(7, id);
 
             return ps.executeUpdate();
         } catch (SQLException e) {

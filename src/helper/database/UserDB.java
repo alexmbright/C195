@@ -1,5 +1,7 @@
 package helper.database;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.User;
 
 import java.sql.PreparedStatement;
@@ -9,6 +11,26 @@ import java.sql.SQLException;
 public class UserDB {
 
     private static User currentUser;
+
+    public static ObservableList<User> getAll() {
+        ObservableList<User> users = FXCollections.observableArrayList();
+        try {
+            String q = "select * from users";
+            PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
+
+            ResultSet res = ps.executeQuery();
+            while (res.next()) {
+                int id = res.getInt("user_id");
+                String username = res.getString("user_name");
+                String password = res.getString("password");
+
+                users.add(new User(id, username, password));
+            }
+        } catch (SQLException e) {
+            System.out.println("user getAll() error: " + e.getMessage());
+        }
+        return users;
+    }
 
     public static boolean passwordMatches(String username, String password) {
         try {

@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 
 public class Main extends Application {
 
+    private static Stage stage;
+
     public static void main(String[] args) {
         // remove comment to test French translation
         // Locale.setDefault(new Locale("fr"));
@@ -21,6 +23,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        setStage(stage);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
         loader.setResources(ResourceBundle.getBundle("util/lang"));
         Parent root = loader.load();
@@ -29,6 +32,14 @@ public class Main extends Application {
         stage.setTitle(loader.getResources().getString("title"));
         stage.setResizable(false);
         stage.show();
+    }
+
+    public static Stage getStage() {
+        return Main.stage;
+    }
+
+    public static void setStage(Stage stage) {
+        Main.stage = stage;
     }
 
 }

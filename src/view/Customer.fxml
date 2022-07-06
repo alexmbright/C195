@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCustomerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerController">
    <Label layoutX="56.0" layoutY="155.0" text="Name" />
    <TextField fx:id="nameField" layoutX="146.0" layoutY="151.0" prefHeight="26.0" prefWidth="198.0" promptText="First Last" />
-   <Label layoutX="56.0" layoutY="64.0" text="Please enter the customer information." />
-   <Label layoutX="56.0" layoutY="44.0" text="Customer Registration">
+   <Label fx:id="descLabel" layoutX="56.0" layoutY="64.0" text="Please enter the customer information." />
+   <Label fx:id="headerLabel" layoutX="56.0" layoutY="44.0" text="Customer Registration">
       <font>
          <Font name="System Bold" size="14.0" />
       </font>
@@ -26,8 +26,9 @@
    <ComboBox fx:id="divisionCombo" layoutX="146.0" layoutY="343.0" prefHeight="26.0" prefWidth="198.0" promptText="Select division" visibleRowCount="6" />
    <Label layoutX="56.0" layoutY="309.0" text="Country" />
    <ComboBox fx:id="countryCombo" layoutX="146.0" layoutY="305.0" prefHeight="26.0" prefWidth="198.0" promptText="Select country" />
-   <Button fx:id="submitBtn" layoutX="290.0" layoutY="393.0" mnemonicParsing="false" onAction="#onSubmit" text="Submit" />
-   <Label fx:id="errorLabel" layoutX="146.0" layoutY="397.0" textFill="#e10000" />
+   <Button fx:id="submitBtn" layoutX="228.0" layoutY="393.0" mnemonicParsing="false" onAction="#onSubmit" text="Submit" />
+   <Label fx:id="errorLabel" layoutX="56.0" layoutY="397.0" textFill="RED" />
    <Label layoutX="56.0" layoutY="117.0" text="ID" />
-   <TextField disable="true" editable="false" layoutX="146.0" layoutY="113.0" prefHeight="26.0" prefWidth="198.0" promptText="auto-generated" />
+   <TextField fx:id="idField" disable="true" editable="false" layoutX="146.0" layoutY="113.0" prefHeight="26.0" prefWidth="198.0" promptText="auto-generated" />
+   <Button fx:id="cancelBtn" layoutX="292.0" layoutY="393.0" mnemonicParsing="false" text="Cancel" />
 </AnchorPane>

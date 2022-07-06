@@ -120,10 +120,10 @@ public class Appointment {
     }
 
     public String getFormattedStart() {
-        return start.format(DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a"));
+        return start.format(DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm"));
     }
 
     public String getFormattedEnd() {
-        return end.format(DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a"));
+        return end.format(DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm"));
     }
 }

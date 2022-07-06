@@ -8,7 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 
 public class AppointmentDB {
 
@@ -108,7 +111,20 @@ public class AppointmentDB {
         return appts;
     }
 
-    public static int add(String title, String desc, String loc, String type, LocalDateTime start, LocalDateTime end, int custId, int contId) {
+    public static ObservableList<Appointment> getUpcoming() {
+        ObservableList<Appointment> appts = FXCollections.observableArrayList();
+        ObservableList<Appointment> all = getAll();
+        if (all.size() == 0) return appts;
+        LocalDateTime now = LocalDateTime.now();
+        for (Appointment a : all) {
+            LocalDateTime start = a.getStart();
+            if (start.isAfter(now) && (start.isBefore(now.plusMinutes(15)) || start.isEqual(now.plusMinutes(15))))
+                appts.add(a);
+        }
+        return appts;
+    }
+
+    public static int add(String title, String desc, String loc, String type, LocalDateTime start, LocalDateTime end, int custId, int userId, int contId) {
         try {
             String q = "insert into appointments (title, description, location, type, start, end, " +
                     "create_date, created_by, last_update, last_updated_by, customer_id, user_id, contact_id) " +
@@ -123,20 +139,24 @@ public class AppointmentDB {
             ps.setString(7, UserDB.getCurrentUser().getUsername());
             ps.setString(8, UserDB.getCurrentUser().getUsername());
             ps.setInt(9, custId);
-            ps.setInt(10, UserDB.getCurrentUser().getId());
+            ps.setInt(10, userId);
             ps.setInt(11, contId);
 
-            return ps.executeUpdate();
+            if (ps.executeUpdate() > 0) {
+                ps = DatabaseConnection.getConnection().prepareStatement("select last_insert_id() from appointments");
+                ResultSet res = ps.executeQuery();
+                if (res.next()) return res.getInt(1);
+            }
         } catch (SQLException e) {
             System.out.println("appointment add() error: " + e.getMessage());
         }
         return -1;
     }
 
-    public static int update(int id, String title, String desc, String loc, String type, LocalDateTime start, LocalDateTime end, int custId, int contId) {
+    public static int update(int id, String title, String desc, String loc, String type, LocalDateTime start, LocalDateTime end, int custId, int userId, int contId) {
         try {
             String q = "update appointments set title = ?, description = ?, location = ?, type = ?, start = ?, " +
-                    "end = ?, last_update = now(), last_updated_by = ?, customer_id = ?, contact_id = ? " +
+                    "end = ?, last_update = now(), last_updated_by = ?, customer_id = ?, user_id = ?, contact_id = ? " +
                     "where appointment_id = ?";
             PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
             ps.setString(1, title);
@@ -147,7 +167,9 @@ public class AppointmentDB {
             ps.setTimestamp(6, Timestamp.valueOf(end));
             ps.setString(7, UserDB.getCurrentUser().getUsername());
             ps.setInt(8, custId);
-            ps.setInt(9, contId);
+            ps.setInt(9, userId);
+            ps.setInt(10, contId);
+            ps.setInt(11, id);
 
             return ps.executeUpdate();
         } catch (SQLException e) {
@@ -181,6 +203,68 @@ public class AppointmentDB {
             System.out.println("hasCustomer() error: " + e.getMessage());
         }
         return false;
+    }
+
+    public static boolean overlaps(int customerId, LocalDateTime newStart, LocalDateTime newEnd) {
+        try {
+            String q = "select start, end from appointments " +
+                    "where customer_id = ?";
+            PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
+            ps.setInt(1, customerId);
+
+            ResultSet res = ps.executeQuery();
+            while (res.next()) {
+                LocalDateTime start = res.getTimestamp("start").toLocalDateTime();
+                LocalDateTime end = res.getTimestamp("end").toLocalDateTime();
+
+                if (start.isBefore(newEnd) && newStart.isBefore(end)) return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("overlaps() error: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static boolean overlaps(int customerId, LocalDateTime newStart, LocalDateTime newEnd, int apptId) {
+        try {
+            String q = "select appointment_id, start, end from appointments " +
+                    "where customer_id = ?";
+            PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
+            ps.setInt(1, customerId);
+
+            ResultSet res = ps.executeQuery();
+            while (res.next()) {
+                if (res.getInt("appointment_id") == apptId) continue;
+                LocalDateTime start = res.getTimestamp("start").toLocalDateTime();
+                LocalDateTime end = res.getTimestamp("end").toLocalDateTime();
+
+                if (start.isBefore(newEnd) && newStart.isBefore(end)) return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("overlaps() error: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static ObservableList<String> getValidTimes() {
+        ObservableList<String> times = FXCollections.observableArrayList();
+
+        ZoneId est = ZoneId.of("US/Eastern");
+        ZoneId local = ZoneId.systemDefault();
+
+        LocalDateTime open = LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0));
+        LocalDateTime close = LocalDateTime.of(LocalDate.now(), LocalTime.of(22, 0));
+        open = open.atZone(est).withZoneSameInstant(local).toLocalDateTime();
+        close = close.atZone(est).withZoneSameInstant(local).toLocalDateTime();
+
+        for (int i = open.getHour(); i < close.getHour(); i++) {
+            for (int j = 0; j < 4; j++) {
+                times.add(String.format("%02d", i) + ":" + String.format("%02d", j * 15));
+            }
+        }
+        times.add(String.format("%02d", close.getHour()) + ":00");
+
+        return times;
     }
 
 }

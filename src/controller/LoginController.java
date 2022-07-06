@@ -5,7 +5,6 @@ import helper.database.UserDB;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import main.Main;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -79,7 +79,7 @@ public class LoginController implements Initializable {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/View.fxml")));
             Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Stage stage = Main.getStage();
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -91,7 +91,7 @@ public class LoginController implements Initializable {
         try {
             FileWriter fw = new FileWriter("login_activity.txt", true);
             PrintWriter pw = new PrintWriter(fw);
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm:ss a");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
             String time = LocalDateTime.now().format(dtf);
             pw.println(time + (success ? " [SUCCESS] " : " [FAILURE] ") + "username: \"" + username + "\", password: \"" + password + "\"");
             pw.close();

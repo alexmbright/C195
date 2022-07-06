@@ -7,10 +7,10 @@ public class Customer {
     private String address;
     private String postal;
     private String phone;
-    private String division;
-    private String country;
+    private Division division;
+    private Country country;
 
-    public Customer(int id, String name, String address, String postal, String phone, String division, String country) {
+    public Customer(int id, String name, String address, String postal, String phone, Division division, Country country) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -60,19 +60,24 @@ public class Customer {
         this.phone = phone;
     }
 
-    public String getDivision() {
+    public Division getDivision() {
         return division;
     }
 
-    public void setDivision(String division) {
+    public void setDivision(Division division) {
         this.division = division;
     }
 
-    public String getCountry() {
+    public Country getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(Country country) {
         this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return id + " - " + name;
     }
 }

@@ -220,7 +220,7 @@ public class AppointmentController implements Initializable {
             Stage stage = Main.getStage();
             stage.setScene(scene);
             stage.show();
-            DialogSender.inform("Schedule Appointment", "Appointment successfully scheduled with ID " + id);
+            DialogSender.inform("Schedule Appointment", "Appointment successfully " + (update ? "updated" : "scheduled") + " at ID " + id);
         } catch (IOException e) {
             e.printStackTrace();
         }

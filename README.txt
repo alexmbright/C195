@@ -16,7 +16,7 @@ JavaFX: JavaFX-SDK-17.0.2
 Directions to launch program:
 - Extract the provided ZIP file
 - Open the project inside of IntelliJ IDEA (2021.1.3 preferred)
-- If necessary, load the proper libraries (noted in this document)
+- If necessary, load the proper libraries and define edit configuration (noted in this document)
 - Click the Run button in the top right
 - Login with "test, test" or "admin, admin" (username, password)
 

@@ -46,6 +46,10 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         DatabaseConnection.openConnection();
+        if (DatabaseConnection.getConnection() == null) {
+            System.out.println("Connection failed! Not launching program...");
+            System.exit(-1);
+        }
         launch(args);
         DatabaseConnection.closeConnection();
     }

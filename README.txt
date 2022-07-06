@@ -1,8 +1,7 @@
 Title: Scheduling System
 
 Purpose: 
-- This system is designed to improve business practices by providing an intuitive UI to track and manage appointments, customers, etc.
-- There are also three provided report functionalities to help drive business decisions.
+- This system is designed to improve business practices by providing an intuitive UI to track and manage appointments, customers, etc. There are also three provided report functionalities to help drive business decisions.
 
 Author: Alexander Bright
 Contact Information: abrig44@wgu.edu
@@ -22,7 +21,6 @@ Directions to launch program:
 - Login with "test, test" or "admin, admin" (username, password)
 
 Additional Report:
-- The report I created was the count of all appointments that a user has with a specific customer.
-- This can be used for various things, such as determining who the primary user is for a customer (and vice versa).
+- The report I created was the count of all appointments that a user has with a specific customer. This can be used for various things, such as determining who the primary user is for a customer (and vice versa).
 
 MySQL Connector Version: mysql-connector-java-8.0.29

@@ -13,7 +13,7 @@ import java.util.Optional;
 public class DialogSender {
 
     /**
-     * Opens a confirm dialog.
+     * Sends a confirm dialog.
      *
      * @param title     dialog box title
      * @param message   dialog box header text
@@ -28,7 +28,7 @@ public class DialogSender {
     }
 
     /**
-     * Opens a warning dialog.
+     * Sends a warning dialog.
      *
      * @param title     dialog box title
      * @param message   dialog box header text
@@ -41,7 +41,7 @@ public class DialogSender {
     }
 
     /**
-     * Opens an information dialog.
+     * Sends an information dialog.
      *
      * @param title     dialog box title
      * @param message   dialog box header text
@@ -54,7 +54,7 @@ public class DialogSender {
     }
 
     /**
-     * Opens an error dialog.
+     * Sends an error dialog.
      *
      * @param title     dialog box title
      * @param message   dialog box header text

@@ -22,6 +22,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The controller for the customer register/update forms.
+ *
+ * @author Alex Bright
+ */
 public class CustomerController implements Initializable {
 
     public Label headerLabel;
@@ -43,6 +48,21 @@ public class CustomerController implements Initializable {
 
     private boolean update;
 
+    /**
+     * Initializes the CustomerController.
+     * This method fills the form's ComboBox fields, initializes the update boolean to false,
+     * and sets functionalities for Country ComboBox selection and cancel button click.
+     * <p>
+     *     There are two lambda expressions found in <code>CustomerController.initialize()</code>.
+     *     The first one defines the functionality of the Country ComboBox, which updates
+     *     the Division ComboBox (and displays it when Country is first selected).
+     *     The second one defines the functionality of the Cancel button, which returns the
+     *     user to the View screen on confirmation.
+     * </p>
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         countryCombo.setItems(CountryDB.getAll());
@@ -53,6 +73,7 @@ public class CustomerController implements Initializable {
         divisionLabel.setVisible(false);
         divisionCombo.setVisible(false);
 
+        // lambda expression
         countryCombo.setOnAction(event -> {
             divisionLabel.setVisible(true);
             divisionCombo.setVisible(true);
@@ -66,6 +87,7 @@ public class CustomerController implements Initializable {
 
         update = false;
 
+        // lambda expression
         cancelBtn.setOnAction(event -> {
             if (DialogSender.confirm((update ? "Update" : "Add") + " Customer", "Are you sure you want to cancel " + (update ? "updating" : "adding") + " this customer?")) {
                 try {
@@ -82,8 +104,15 @@ public class CustomerController implements Initializable {
         });
     }
 
-    public void populate(Customer c) {
-        if (c == null) {
+    /**
+     * Populates the form with pre-selected customer information.
+     * This method also sets the update boolean to true, which indicates this form
+     * is being used to update an appointment.
+     *
+     * @param customer selected customer
+     */
+    public void populate(Customer customer) {
+        if (customer == null) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/View.fxml"));
                 Scene scene = new Scene(loader.load());
@@ -101,25 +130,32 @@ public class CustomerController implements Initializable {
         headerLabel.setText("Customer Update");
         descLabel.setText("Please enter the updated customer information.");
 
-        idField.setPromptText(Integer.toString(c.getId()));
-        nameField.setText(c.getName());
-        addressField.setText(c.getAddress());
-        postalField.setText(c.getPostal());
-        phoneField.setText(c.getPhone());
+        idField.setPromptText(Integer.toString(customer.getId()));
+        nameField.setText(customer.getName());
+        addressField.setText(customer.getAddress());
+        postalField.setText(customer.getPostal());
+        phoneField.setText(customer.getPhone());
 
         countryCombo.setItems(CountryDB.getAll());
-        countryCombo.getSelectionModel().select(c.getCountry());
+        countryCombo.getSelectionModel().select(customer.getCountry());
         submitBtn.setLayoutY(divisionCombo.getLayoutY() + 50);
         cancelBtn.setLayoutY(divisionCombo.getLayoutY() + 50);
         errorLabel.setLayoutY(divisionCombo.getLayoutY() + 54);
         divisionCombo.setVisible(true);
         divisionLabel.setVisible(true);
         divisionCombo.setItems(DivisionDB.getAllByCountry(countryCombo.getSelectionModel().getSelectedItem().getId()));
-        divisionCombo.getSelectionModel().select(c.getDivision());
+        divisionCombo.getSelectionModel().select(customer.getDivision());
 
         update = true;
     }
 
+    /**
+     * Validates input and inserts/updates customer.
+     * This method checks for blank input fields and successful insert/update in the database.
+     * If successful, returns to the main screen with a dialog box.
+     *
+     * @param actionEvent
+     */
     public void onSubmit(ActionEvent actionEvent) {
         String error = "";
         if (nameField.getText().isBlank()

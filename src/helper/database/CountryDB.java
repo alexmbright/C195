@@ -8,8 +8,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class makes database calls for country operations.
+ *
+ * @author Alex Bright
+ */
 public class CountryDB {
 
+    /**
+     * Calls to database and returns list of all countries.
+     *
+     * @return observable list of all countries
+     */
     public static ObservableList<Country> getAll() {
         ObservableList<Country> countries = FXCollections.observableArrayList();
         try {
@@ -29,6 +39,12 @@ public class CountryDB {
         return countries;
     }
 
+    /**
+     * Calls to database and returns matching instance of Country.
+     *
+     * @param id ID of country to find
+     * @return matching instance of Country if successful, otherwise null
+     */
     public static Country get(int id) {
         try {
             String q = "select * from countries " +
@@ -48,6 +64,12 @@ public class CountryDB {
         return null;
     }
 
+    /**
+     * Calls to database and returns matching instance of Country.
+     *
+     * @param country name of country to find
+     * @return matching instance of Country if successful, otherwise null
+     */
     public static Country get(String country) {
         try {
             String q = "select * from countries " +

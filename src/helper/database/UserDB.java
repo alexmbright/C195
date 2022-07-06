@@ -8,10 +8,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class makes database calls for user operations.
+ *
+ * @author Alex Bright
+ */
 public class UserDB {
 
     private static User currentUser;
 
+    /**
+     * Calls to database and returns list of all customers.
+     *
+     * @return observable list of all customers
+     */
     public static ObservableList<User> getAll() {
         ObservableList<User> users = FXCollections.observableArrayList();
         try {
@@ -32,6 +42,13 @@ public class UserDB {
         return users;
     }
 
+    /**
+     * Calls to database and determines if user exists with matching username and password.
+     *
+     * @param username existing username
+     * @param password attempted password
+     * @return true if existing user has matching username and password, otherwise false
+     */
     public static boolean passwordMatches(String username, String password) {
         try {
             String q = "select * from users where user_name = ? and password = ?";
@@ -47,6 +64,12 @@ public class UserDB {
         return false;
     }
 
+    /**
+     * Calls to database and returns matching instance of User.
+     *
+     * @param id ID of user to find
+     * @return matching instance of User if successful, otherwise null
+     */
     public static User getUser(int id) {
         try {
             String q = "select * from users where user_id = ?";
@@ -66,6 +89,12 @@ public class UserDB {
         return null;
     }
 
+    /**
+     * Calls to database and returns matching instance of User.
+     *
+     * @param username username of user to find
+     * @return matching instance of User if successful, otherwise null
+     */
     public static User getUser(String username) {
         try {
             String q = "select * from users where user_name = ?";
@@ -85,10 +114,20 @@ public class UserDB {
         return null;
     }
 
+    /**
+     * Sets currently logged in user to given instance of User.
+     *
+     * @param user instance of User to set as logged in user
+     */
     public static void setCurrentUser(User user) {
         currentUser = user;
     }
 
+    /**
+     * Returns instance of User currently logged in.
+     *
+     * @return instance of User currently logged in
+     */
     public static User getCurrentUser() {
         return currentUser;
     }

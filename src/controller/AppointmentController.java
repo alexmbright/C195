@@ -24,6 +24,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**
+ * The controller for the appointment schedule/update forms.
+ *
+ * @author Alex Bright
+ */
 public class AppointmentController implements Initializable {
 
     public Label headerLabel;
@@ -48,6 +53,18 @@ public class AppointmentController implements Initializable {
 
     private boolean update;
 
+    /**
+     * Initializes the AppointmentController.
+     * This method fills the form's ComboBox fields, initializes the update boolean to false,
+     * and defines the cancel button's functionality.
+     * <p>
+     *     The lambda expression found in <code>cancelBtn.setOnAction()</code> defines the
+     *     functionality of the Cancel button located on the Appointment form.
+     * </p>
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerCombo.setItems(CustomerDB.getAll());
@@ -62,6 +79,7 @@ public class AppointmentController implements Initializable {
 
         update = false;
 
+        // lambda expression
         cancelBtn.setOnAction(event -> {
             if (DialogSender.confirm((update ? "Update" : "Schedule") + " Appointment", "Are you sure you want to cancel " + (update ? "updating" : "scheduling") + " an appointment?")) {
                 try {
@@ -78,6 +96,13 @@ public class AppointmentController implements Initializable {
         });
     }
 
+    /**
+     * Populates the form with pre-selected appointment information.
+     * This method also sets the update boolean to true, which indicates this form
+     * is being used to update an appointment.
+     *
+     * @param a selected appointment
+     */
     public void populate(Appointment a) {
         if (a == null) {
             try {
@@ -120,6 +145,14 @@ public class AppointmentController implements Initializable {
         update = true;
     }
 
+    /**
+     * Validates input and inserts/updates appointment.
+     * This method checks for blank input fields, appointment time overlapping,
+     * and successful insert/update in the database.
+     * If successful, returns to the main screen with a dialog box.
+     *
+     * @param actionEvent
+     */
     public void onSubmit(ActionEvent actionEvent) {
         errorLabel.setText("");
         if (titleField.getText().isBlank() || descField.getText().isBlank() || locField.getText().isBlank()

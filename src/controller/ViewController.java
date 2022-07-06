@@ -25,6 +25,11 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * The controller for the View screen.
+ *
+ * @author Alex Bright
+ */
 public class ViewController implements Initializable {
     
     public TabPane tabPane;
@@ -91,6 +96,33 @@ public class ViewController implements Initializable {
     public Button ucCalcBtn;
     public Label ucCalcLabel;
 
+    /**
+     * Initializes the ViewController.
+     * This method calls init methods for each table (appt, customer, report),
+     * fills month report ComboBox, and defines action methods for various functionalities.
+     * <p>
+     *     <b>Lambda expression:</b> I am using an Array stream on the Month values array so that I can use
+     *     the forEach lambda expression. This lambda expression fills the months ObservableList that will be
+     *     used for the month report ComboBox data. The use of the lambda expression allows for much more readable
+     *     and more efficient code. It is more readable because it simplifies the for-each loop into a single line
+     *     that can be read like a normal line of words.
+     *     ("In the stream of month values, each month's name will be added to the list of months.")
+     * </p>
+     * <p>
+     *     The remaining lambda expressions define functionalities for various GUI items.
+     *     These functionalities include:
+     *     <ul>
+     *         <li>Type/Month Calculation Button</li>
+     *         <li>User/Customer Calculation Button</li>
+     *         <li>Appointments by Contact ComboBox</li>
+     *         <li>Each View Radio Button for Appointments (all, month, week)</li>
+     *         <li>Report tab selection (to reset report selections)</li>
+     *     </ul>
+     * </p>
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initAppointmentTable();
@@ -102,6 +134,7 @@ public class ViewController implements Initializable {
         Arrays.stream(Month.values()).forEach(m -> months.add(m.name()));
         tmMonthCombo.setItems(months);
 
+        // lambda expression
         tmCalcBtn.setOnAction(e -> {
             if (tmTypeCombo.getSelectionModel().getSelectedItem() != null
                     && tmMonthCombo.getSelectionModel().getSelectedItem() != null) {
@@ -110,9 +143,10 @@ public class ViewController implements Initializable {
                 if (count == 0) tmCalcLabel.setText("No matching appointments found.");
                 else if (count == 1) tmCalcLabel.setText("1 matching appointment found.");
                 else tmCalcLabel.setText(count + " matching appointments found.");
-            } else tmCalcLabel.setText("Please make your selections.");
+            } else tmCalcLabel.setText("Please select type and month.");
         });
 
+        // lambda expression
         ucCalcBtn.setOnAction(e -> {
             if (ucUserCombo.getSelectionModel().getSelectedItem() != null
                     && ucCustCombo.getSelectionModel().getSelectedItem() != null) {
@@ -121,9 +155,10 @@ public class ViewController implements Initializable {
                 if (count == 0) ucCalcLabel.setText("No matching appointments found.");
                 else if (count == 1) ucCalcLabel.setText("1 matching appointment found.");
                 else ucCalcLabel.setText(count + " matching appointments found.");
-            } else ucCalcLabel.setText("Please make your selections.");
+            } else ucCalcLabel.setText("Please select user and customer.");
         });
 
+        // lambda expression
         acCombo.setOnAction(e -> {
             if (acCombo.getSelectionModel().getSelectedItem() != null) {
                 apptContactTable.setItems(AppointmentDB.getByContact(acCombo.getSelectionModel().getSelectedItem().getId()));
@@ -131,30 +166,46 @@ public class ViewController implements Initializable {
             }
         });
 
+        // lambda expression
         aViewAllRadio.setOnAction(e -> {
             appointmentTable.setItems(AppointmentDB.getAll());
             appointmentTable.getSortOrder().add(aIdCol);
         });
 
+        // lambda expression
         aViewMonthRadio.setOnAction(e -> {
             appointmentTable.setItems(AppointmentDB.getThisMonth());
             appointmentTable.getSortOrder().add(aIdCol);
         });
 
+        // lambda expression
         aViewWeekRadio.setOnAction(e -> {
             appointmentTable.setItems(AppointmentDB.getThisWeek());
             appointmentTable.getSortOrder().add(aIdCol);
         });
 
+        // lambda expression
         reportTab.setOnSelectionChanged(e -> {
             if (reportTab.isSelected()) resetReportTab();
         });
     }
 
+    /**
+     * Open desired tab in the View screen.
+     * If tab param is valid (non-negative and less than size of tab list),
+     * set as selected tab.
+     *
+     * @param tab index of tab to select
+     */
     public void setTab(int tab) {
-        if (tabPane.getTabs().size() > tab) tabPane.getSelectionModel().select(tab);
+        if (tab >= 0 && tabPane.getTabs().size() > tab) tabPane.getSelectionModel().select(tab);
     }
 
+    /**
+     * Initializes main appointment table.
+     * This method sets table columns to corresponding values
+     * and displays all appointments by default, sorted by ID.
+     */
     public void initAppointmentTable() {
         aIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         aTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -171,6 +222,10 @@ public class ViewController implements Initializable {
         appointmentTable.getSortOrder().add(aIdCol);
     }
 
+    /**
+     * Initializes appointment by contact report table.
+     * This method sets table columns to corresponding values.
+     */
     public void initReportTable() {
         acIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         acTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -184,16 +239,29 @@ public class ViewController implements Initializable {
         acUserCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
 
+    /**
+     * Resets report tab fields.
+     * This method fills the combo boxes, clears
+     * calculation labels, and clears appointments by contacts
+     * table.
+     */
     public void resetReportTab() {
         tmTypeCombo.setItems(AppointmentDB.getTypes());
+        tmCalcLabel.setText("");
 
         ucUserCombo.setItems(UserDB.getAll());
         ucCustCombo.setItems(CustomerDB.getAll());
+        ucCalcLabel.setText("");
 
         acCombo.setItems(ContactDB.getAll());
         apptContactTable.getItems().clear();
     }
 
+    /**
+     * Initializes main customer table.
+     * This method sets table columns to corresponding values
+     * and displays all customers, sorted by ID.
+     */
     public void initCustomerTable() {
         cIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         cNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -207,6 +275,12 @@ public class ViewController implements Initializable {
         customerTable.getSortOrder().add(cIdCol);
     }
 
+    /**
+     * On button click, switches to schedule appointment form.
+     * This method validates selection and launches Appointment form.
+     *
+     * @param actionEvent
+     */
     public void onAddAppointment(ActionEvent actionEvent) {
         if (CustomerDB.getAll().size() == 0) {
             DialogSender.inform("Schedule Appointment", "There are no customers to schedule appointments with.");
@@ -223,6 +297,13 @@ public class ViewController implements Initializable {
         }
     }
 
+    /**
+     * On button click, switches to update appointment form.
+     * This method validates selection and calls populate() method inside controller
+     * to pre-populate all fields with selected appointment information.
+     *
+     * @param actionEvent
+     */
     public void onUpdateAppointment(ActionEvent actionEvent) {
         if (AppointmentDB.getAll().size() == 0) {
             DialogSender.inform("Update Appointment", "There are no scheduled appointments.");
@@ -244,6 +325,13 @@ public class ViewController implements Initializable {
         }
     }
 
+    /**
+     * On button click, cancel selected appointment.
+     * This method validates selection and attempts to delete from the database.
+     * On successful deletion, refresh appointment table and display proper dialog box.
+     *
+     * @param actionEvent
+     */
     public void onCancelAppointment(ActionEvent actionEvent) {
         if (AppointmentDB.getAll().size() == 0) {
             DialogSender.inform("Cancel Appointment", "There are no scheduled appointments.");
@@ -267,6 +355,11 @@ public class ViewController implements Initializable {
         }
     }
 
+    /**
+     * On button click, switches to customer registration form.
+     *
+     * @param actionEvent
+     */
     public void onAddCustomer(ActionEvent actionEvent) {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/Customer.fxml")));
@@ -279,6 +372,42 @@ public class ViewController implements Initializable {
         }
     }
 
+    /**
+     * On button click, switch to customer update form.
+     * This method validates selection and calls populate() method inside controller
+     * to pre-populate all fields with selected customer information.
+     *
+     * @param actionEvent
+     */
+    public void onUpdateCustomer(ActionEvent actionEvent) {
+        if (CustomerDB.getAll().size() == 0) {
+            DialogSender.inform("Update Customer", "There are no customers to update.");
+            return;
+        }
+        if (customerTable.getSelectionModel().isEmpty()) {
+            DialogSender.warn("Update Customer", "Please select the customer you want to update.");
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Customer.fxml"));
+            Scene scene = new Scene(loader.load());
+            ((CustomerController)loader.getController()).populate(customerTable.getSelectionModel().getSelectedItem());
+            Stage stage = Main.getStage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * On button click, delete selected customer.
+     * This method validates selection and checks customer's appointments,
+     * then attempts to delete customer from database.
+     * On successful deletion, refresh customer table and display proper dialog box.
+     *
+     * @param actionEvent
+     */
     public void onDeleteCustomer(ActionEvent actionEvent) {
         if (CustomerDB.getAll().size() == 0) {
             DialogSender.inform("Delete Customer", "There are no customers to delete.");
@@ -305,24 +434,4 @@ public class ViewController implements Initializable {
         customerTable.getSelectionModel().clearSelection();
     }
 
-    public void onUpdateCustomer(ActionEvent actionEvent) {
-        if (CustomerDB.getAll().size() == 0) {
-            DialogSender.inform("Update Customer", "There are no customers to update.");
-            return;
-        }
-        if (customerTable.getSelectionModel().isEmpty()) {
-            DialogSender.warn("Update Customer", "Please select the customer you want to update.");
-            return;
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Customer.fxml"));
-            Scene scene = new Scene(loader.load());
-            ((CustomerController)loader.getController()).populate(customerTable.getSelectionModel().getSelectedItem());
-            Stage stage = Main.getStage();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

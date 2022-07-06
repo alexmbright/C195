@@ -9,16 +9,57 @@ import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
 
+/**
+ * The main class of the application.
+ * <p>
+ *     Important lambda expression locations:
+ *     <ul>
+ *         <li><code>ViewController.initialize()</code></li>
+ *         <li><code>LoginController.showUpcoming()</code></li>
+ *     </ul>
+ * </p>
+ * <p>
+ *     There are 10+ lambda expressions in my code and the requirements
+ *     specify at least <b>two</b>, so I have listed two that I find most
+ *     important, each with full explanations.
+ *     <br/>
+ *     However, I will also be pointing out and briefly explaining the rest of
+ *     the lambda expressions, as listed below.
+ * </p>
+ * <p>
+ *     The remaining lambda expression locations:
+ *     <ul>
+ *         <li>1 in <code>AppointmentController.initialize()</code></li>
+ *         <li>7 in <code>ViewController.initialize()</code></li>
+ *         <li>2 in <code>CustomerController.initialize()</code></li>
+ *     </ul>
+ * </p>
+ *
+ * @author Alex Bright
+ * */
 public class Main extends Application {
 
     private static Stage stage;
 
+    /**
+     * The entry point of the Java program.
+     * Handles opening and closing of the database, and launching the JavaFX program.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         DatabaseConnection.openConnection();
         launch(args);
         DatabaseConnection.closeConnection();
     }
 
+    /**
+     * Launches the Scheduling System application.
+     * Defines resource bundle for English/French translation.
+     *
+     * @param stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         setStage(stage);
@@ -32,10 +73,21 @@ public class Main extends Application {
         stage.show();
     }
 
+    /**
+     * Gets the main stage of the program.
+     * Allows for easy scene switching anywhere in the program.
+     *
+     * @return the main stage
+     */
     public static Stage getStage() {
         return Main.stage;
     }
 
+    /**
+     * Sets the main stage of the program.
+     *
+     * @param stage the main stage
+     */
     public static void setStage(Stage stage) {
         Main.stage = stage;
     }

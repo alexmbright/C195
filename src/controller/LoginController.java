@@ -27,6 +27,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * The controller for the Login screen.
+ *
+ * @author Alex Bright
+ */
 public class LoginController implements Initializable {
 
     public Label loginLabel;
@@ -38,10 +43,20 @@ public class LoginController implements Initializable {
     public Label locationLabel;
     public Label zoneIdLabel;
 
-    private ResourceBundle rb = ResourceBundle.getBundle("util/lang");
+    private ResourceBundle rb;
 
+    /**
+     * Initializes the LoginController.
+     * This method determines the user's location and displays in the form.
+     * It also translates all login screen messages using provided resource bundle.
+     *
+     * @param url
+     * @param resourceBundle resource bundle used for language translation
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        rb = resourceBundle;
+
         ZoneId zoneId = ZoneId.systemDefault();
         zoneIdLabel.setText(zoneId.toString());
         loginLabel.setText(resourceBundle.getString("mainMessage"));
@@ -51,6 +66,12 @@ public class LoginController implements Initializable {
         locationLabel.setText(resourceBundle.getString("locationLabel"));
     }
 
+    /**
+     * Validates and logs input on submit button click.
+     * On successful login, switches to View screen and calls <code>showUpcoming()</code> method to display upcoming appointments.
+     *
+     * @param actionEvent
+     */
     public void onSubmit(ActionEvent actionEvent) {
         System.out.println("Submitting login info...");
         String username = usernameField.getText();
@@ -90,6 +111,16 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Displays the appropriate upcoming appointment dialog box.
+     * If no upcoming appointments, displays a message stating that.
+     * Otherwise, display count and list of all upcoming appointments.
+     * <p>
+     *     <b>Lambda expression:</b> I used the forEach lambda expression to append all upcoming appointment
+     *     information to a StringBuilder for display. This allows for more efficiency as I don't need to
+     *     loop through and create separate String instances for each iteration.
+     * </p>
+     */
     public void showUpcoming() {
         ObservableList<Appointment> upcoming = AppointmentDB.getUpcoming();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
@@ -106,6 +137,13 @@ public class LoginController implements Initializable {
         DialogSender.warn("Appointments", alert.toString());
     }
 
+    /**
+     * Writes login attempt details with timestamp to 'login_activity.txt' log file.
+     *
+     * @param success true if login was successful, otherwise false
+     * @param username username of login attempt
+     * @param password password of login attempt
+     */
     private void log(boolean success, String username, String password) {
         try {
             FileWriter fw = new FileWriter("login_activity.txt", true);

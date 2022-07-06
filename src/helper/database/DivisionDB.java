@@ -8,8 +8,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class makes database calls for division operations.
+ *
+ * @author Alex Bright
+ */
 public class DivisionDB {
 
+    /**
+     * Calls to database and returns list of all divisions.
+     *
+     * @return observable list of all divisions
+     */
     public static ObservableList<Division> getAll() {
         ObservableList<Division> divisions = FXCollections.observableArrayList();
         try {
@@ -30,6 +40,12 @@ public class DivisionDB {
         return divisions;
     }
 
+    /**
+     * Calls to database and returns list of matching divisions by country ID.
+     *
+     * @param id existing country ID
+     * @return observable list of matching divisions by country ID
+     */
     public static ObservableList<Division> getAllByCountry(int id) {
         ObservableList<Division> divisions = FXCollections.observableArrayList();
         try {
@@ -50,6 +66,12 @@ public class DivisionDB {
         return divisions;
     }
 
+    /**
+     * Calls to database and returns matching instance of Division.
+     *
+     * @param id ID of division to find
+     * @return matching instance of Division if successful, otherwise null
+     */
     public static Division get(int id) {
         try {
             String q = "select * from first_level_divisions " +
@@ -70,6 +92,12 @@ public class DivisionDB {
         return null;
     }
 
+    /**
+     * Calls to database and returns matching instance of Division.
+     *
+     * @param division name of division to find
+     * @return matching instance of Division if successful, otherwise null
+     */
     public static Division get(String division) {
         try {
             String q = "select * from first_level_divisions " +

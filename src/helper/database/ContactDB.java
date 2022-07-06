@@ -8,8 +8,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class makes database calls for contact operations.
+ *
+ * @author Alex Bright
+ */
 public class ContactDB {
 
+    /**
+     * Calls to database and returns list of all contacts.
+     *
+     * @return observable list of all contacts
+     */
     public static ObservableList<Contact> getAll() {
         ObservableList<Contact> contacts = FXCollections.observableArrayList();
         try {
@@ -30,6 +40,12 @@ public class ContactDB {
         return contacts;
     }
 
+    /**
+     * Calls to database and returns matching instance of Contact.
+     *
+     * @param id ID of contact to find
+     * @return instance of Contact if successful, otherwise null
+     */
     public static Contact getContact(int id) {
         try {
             String q = "select * from contacts where contact_id = ?";

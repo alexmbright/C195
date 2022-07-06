@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
@@ -35,9 +36,9 @@
             </RadioButton>
             <RadioButton fx:id="aViewMonthRadio" layoutX="804.0" layoutY="20.0" mnemonicParsing="false" text="View By Current Month" toggleGroup="$aViewByToggle" />
             <RadioButton fx:id="aViewWeekRadio" layoutX="600.0" layoutY="20.0" mnemonicParsing="false" text="View By Current Week" toggleGroup="$aViewByToggle" />
-            <Label layoutX="50.0" layoutY="20.0" text="Scheduled Appointments">
+            <Label layoutX="50.0" layoutY="19.0" text="Scheduled Appointments">
                 <font>
-                    <Font name="System Bold" size="12.0" />
+                    <Font name="System Bold" size="14.0" />
                 </font>
             </Label>
             <Button fx:id="aScheduleBtn" layoutX="50.0" layoutY="420.0" mnemonicParsing="false" onAction="#onAddAppointment" text="Schedule New Appointment" />
@@ -61,14 +62,70 @@
             <Button fx:id="cAddBtn" layoutX="50.0" layoutY="420.0" mnemonicParsing="false" onAction="#onAddCustomer" text="Register New Customer" />
             <Button fx:id="cDeleteBtn" layoutX="836.0" layoutY="420.0" mnemonicParsing="false" onAction="#onDeleteCustomer" text="Delete Customer" />
             <Button fx:id="cUpdateBtn" layoutX="706.0" layoutY="420.0" mnemonicParsing="false" onAction="#onUpdateCustomer" text="Update Customer" />
-            <Label layoutX="50.0" layoutY="20.0" text="Customer Register">
+            <Label layoutX="50.0" layoutY="19.0" text="Customer Register">
                 <font>
-                    <Font name="System Bold" size="12.0" />
+                    <Font name="System Bold" size="14.0" />
                 </font>
             </Label>
         </AnchorPane>
     </Tab>
     <Tab fx:id="reportTab" text="Reports">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <Label layoutX="37.0" layoutY="25.0" text="Calculate number of appointments by type and month">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Label>
+            <Label layoutX="74.0" layoutY="75.0" text="Type" />
+            <ComboBox fx:id="tmTypeCombo" layoutX="106.0" layoutY="71.0" prefWidth="150.0" promptText="Select type" visibleRowCount="6" />
+            <Label layoutX="64.0" layoutY="111.0" text="Month" />
+            <ComboBox fx:id="tmMonthCombo" layoutX="106.0" layoutY="107.0" prefWidth="150.0" promptText="Select month" visibleRowCount="6" />
+            <Button fx:id="tmCalcBtn" layoutX="299.0" layoutY="89.0" mnemonicParsing="false" text="Calculate" />
+            <Label fx:id="tmCalcLabel" layoutX="106.0" layoutY="151.0">
+                <font>
+                    <Font name="System Bold" size="12.0" />
+                </font>
+            </Label>
+            <Label layoutX="37.0" layoutY="240.0" text="View appointment schedule by contact">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Label>
+            <Label layoutX="551.0" layoutY="33.0" text="Calculate number of appointments by user and customer">
+                <font>
+                    <Font name="System Bold" size="14.0" />
+                </font>
+            </Label>
+            <Label layoutX="607.0" layoutY="75.0" text="User" />
+            <ComboBox fx:id="acCombo" layoutX="305.0" layoutY="237.0" prefWidth="150.0" promptText="Select contact" visibleRowCount="5" />
+            <TableView fx:id="apptContactTable" layoutX="35.0" layoutY="277.0" prefHeight="180.0" prefWidth="930.0">
+                <columns>
+                    <TableColumn fx:id="acIdCol" editable="false" prefWidth="44.00006103515625" text="ID" />
+                    <TableColumn fx:id="acTitleCol" editable="false" prefWidth="112.0" text="Title" />
+                    <TableColumn fx:id="acDescCol" editable="false" prefWidth="132.0" text="Description" />
+                    <TableColumn fx:id="acLocCol" editable="false" prefWidth="100.800048828125" text="Location" />
+                    <TableColumn fx:id="acContactCol" editable="false" prefWidth="80.0001220703125" text="Contact" />
+                    <TableColumn fx:id="acTypeCol" editable="false" prefWidth="100.7999267578125" text="Type" />
+                    <TableColumn fx:id="acStartCol" editable="false" prefWidth="117.5999755859375" text="Start" />
+                    <TableColumn fx:id="acEndCol" editable="false" prefWidth="117.5999755859375" text="End" />
+                    <TableColumn fx:id="acCustomerCol" editable="false" prefWidth="69.5999755859375" text="Customer" />
+                    <TableColumn fx:id="acUserCol" editable="false" prefWidth="52.80002441406248" text="User ID" />
+                </columns>
+            </TableView>
+            <Label layoutX="580.0" layoutY="111.0" text="Customer" />
+            <ComboBox fx:id="ucUserCombo" layoutX="640.0" layoutY="71.0" prefWidth="150.0" promptText="Select user" visibleRowCount="6" />
+            <ComboBox fx:id="ucCustCombo" layoutX="640.0" layoutY="107.0" prefWidth="150.0" promptText="Select customer" visibleRowCount="6" />
+            <Button fx:id="ucCalcBtn" layoutX="835.0" layoutY="89.0" mnemonicParsing="false" text="Calculate" />
+            <Label fx:id="ucCalcLabel" layoutX="640.0" layoutY="151.0">
+                <font>
+                    <Font name="System Bold" size="12.0" />
+                </font>
+            </Label>
+            <Label layoutX="37.0" layoutY="45.0" text="Note: Start and End times are both taken into account for month">
+                <font>
+                    <Font size="10.0" />
+                </font>
+            </Label>
+        </AnchorPane>
     </Tab>
 </TabPane>

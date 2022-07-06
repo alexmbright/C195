@@ -1,7 +1,9 @@
 package controller;
 
 import helper.DialogSender;
+import helper.database.AppointmentDB;
 import helper.database.UserDB;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +15,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import main.Main;
+import model.Appointment;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,9 +46,7 @@ public class LoginController implements Initializable {
         zoneIdLabel.setText(zoneId.toString());
         loginLabel.setText(resourceBundle.getString("mainMessage"));
         usernameLabel.setText(resourceBundle.getString("usernameLabel"));
-        usernameField.setPromptText(resourceBundle.getString("usernamePrompt"));
         passwordLabel.setText(resourceBundle.getString("passwordLabel"));
-        passwordField.setPromptText(resourceBundle.getString("passwordPrompt"));
         submitBtn.setText(resourceBundle.getString("submit"));
         locationLabel.setText(resourceBundle.getString("locationLabel"));
     }
@@ -81,10 +82,28 @@ public class LoginController implements Initializable {
             Scene scene = new Scene(root);
             Stage stage = Main.getStage();
             stage.setScene(scene);
+            stage.setTitle("Scheduling System");
             stage.show();
+            showUpcoming();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showUpcoming() {
+        ObservableList<Appointment> upcoming = AppointmentDB.getUpcoming();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+        if (upcoming.size() == 0) {
+            DialogSender.inform("Appointments", "There are no upcoming appointments.");
+            return;
+        }
+        StringBuilder alert = new StringBuilder();
+        alert.append(upcoming.size() > 1 ? "There are " + upcoming.size() + " upcoming appointments:\n" : "There is 1 upcoming appointment:\n");
+
+        //lambda expression
+        upcoming.forEach(appt -> alert.append("\n\t").append(appt.getId()).append(" - '").append(appt.getTitle()).append("' at ").append(appt.getStart().format(dtf)));
+
+        DialogSender.warn("Appointments", alert.toString());
     }
 
     private void log(boolean success, String username, String password) {

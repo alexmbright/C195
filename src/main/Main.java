@@ -14,8 +14,6 @@ public class Main extends Application {
     private static Stage stage;
 
     public static void main(String[] args) {
-        // remove comment to test French translation
-        // Locale.setDefault(new Locale("fr"));
         DatabaseConnection.openConnection();
         launch(args);
         DatabaseConnection.closeConnection();

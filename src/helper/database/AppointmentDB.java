@@ -3,15 +3,14 @@ package helper.database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
+import model.Customer;
+import model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 
 public class AppointmentDB {
 
@@ -111,6 +110,37 @@ public class AppointmentDB {
         return appts;
     }
 
+    public static ObservableList<Appointment> getByContact(int contactId) {
+        ObservableList<Appointment> appts = FXCollections.observableArrayList();
+        try {
+            String q = "select a.*, co.contact_name from appointments a " +
+                    "left join contacts co on a.contact_id = co.contact_id " +
+                    "where a.contact_id = ? " +
+                    "order by a.appointment_id";
+            PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
+            ps.setInt(1, contactId);
+
+            ResultSet res = ps.executeQuery();
+            while (res.next()) {
+                int id = res.getInt("appointment_id");
+                String title = res.getString("title");
+                String desc = res.getString("description");
+                String location = res.getString("location");
+                String type = res.getString("type");
+                LocalDateTime start = res.getTimestamp("start").toLocalDateTime();
+                LocalDateTime end = res.getTimestamp("end").toLocalDateTime();
+                int customer = res.getInt("customer_id");
+                int userId = res.getInt("user_id");
+                String contactName = res.getString("contact_name");
+
+                appts.add(new Appointment(id, title, desc, location, type, start, end, customer, userId, contactId, contactName));
+            }
+        } catch (SQLException e) {
+            System.out.println("appointment getByContact() error: " + e.getMessage());
+        }
+        return appts;
+    }
+
     public static ObservableList<Appointment> getUpcoming() {
         ObservableList<Appointment> appts = FXCollections.observableArrayList();
         ObservableList<Appointment> all = getAll();
@@ -118,10 +148,64 @@ public class AppointmentDB {
         LocalDateTime now = LocalDateTime.now();
         for (Appointment a : all) {
             LocalDateTime start = a.getStart();
-            if (start.isAfter(now) && (start.isBefore(now.plusMinutes(15)) || start.isEqual(now.plusMinutes(15))))
+            if (start.isAfter(now) && start.isBefore(now.plusMinutes(15)))
                 appts.add(a);
         }
         return appts;
+    }
+
+    public static ObservableList<String> getTypes() {
+        ObservableList<String> types = FXCollections.observableArrayList();
+        try {
+            String q = "select distinct type from appointments";
+            PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
+
+            ResultSet res = ps.executeQuery();
+            while (res.next()) {
+                String type = res.getString("type");
+                types.add(type);
+            }
+        } catch (SQLException e) {
+            System.out.println("getTypes() error: " + e.getMessage());
+        }
+        return types;
+    }
+
+    public static int countByTypeAndMonth(String type, Month month) {
+        int count = 0;
+        try {
+            String q = "select count(appointment_id) from appointments where type = ? and (month(start) = ? or month(end) = ?)";
+            PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
+            ps.setString(1, type);
+            ps.setInt(2, month.getValue());
+            ps.setInt(3, month.getValue());
+
+            ResultSet res = ps.executeQuery();
+            if (res.next()) {
+                count = res.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("countByTypeAndMonth() error: " + e.getMessage());
+        }
+        return count;
+    }
+
+    public static int countByUserAndCustomer(User user, Customer customer) {
+        int count = 0;
+        try {
+            String q = "select count(appointment_id) from appointments where user_id = ? and customer_id = ?";
+            PreparedStatement ps = DatabaseConnection.getConnection().prepareStatement(q);
+            ps.setInt(1, user.getId());
+            ps.setInt(2, customer.getId());
+
+            ResultSet res = ps.executeQuery();
+            if (res.next()) {
+                count = res.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("countByUserAndCustomer() error: " + e.getMessage());
+        }
+        return count;
     }
 
     public static int add(String title, String desc, String loc, String type, LocalDateTime start, LocalDateTime end, int custId, int userId, int contId) {

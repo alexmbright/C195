@@ -2,7 +2,11 @@ package controller;
 
 import helper.DialogSender;
 import helper.database.AppointmentDB;
+import helper.database.ContactDB;
 import helper.database.CustomerDB;
+import helper.database.UserDB;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,36 +16,23 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import main.Main;
-import model.Appointment;
-import model.Country;
-import model.Customer;
-import model.Division;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Month;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ViewController implements Initializable {
-
-    public RadioButton aViewAllRadio;
-    public ToggleGroup aViewByToggle;
-    public RadioButton aViewMonthRadio;
-    public RadioButton aViewWeekRadio;
-    public Button aScheduleBtn;
-    public Button aUpdateBtn;
-    public Button aCancelBtn;
-
+    
     public TabPane tabPane;
     public Tab customerTab;
     public Tab reportTab;
     public Tab appointmentTab;
-
-    public Button cAddBtn;
-    public Button cDeleteBtn;
-    public Button cUpdateBtn;
-
-
+    
+    // Appointment tab
     public TableView<Appointment> appointmentTable;
     public TableColumn<Appointment, Integer> aIdCol;
     public TableColumn<Appointment, String> aTitleCol;
@@ -53,7 +44,15 @@ public class ViewController implements Initializable {
     public TableColumn<Appointment, String> aEndCol;
     public TableColumn<Appointment, Integer> aCustomerCol;
     public TableColumn<Appointment, Integer> aUserCol;
+    public RadioButton aViewAllRadio;
+    public ToggleGroup aViewByToggle;
+    public RadioButton aViewMonthRadio;
+    public RadioButton aViewWeekRadio;
+    public Button aScheduleBtn;
+    public Button aUpdateBtn;
+    public Button aCancelBtn;
 
+    // Customer tab
     public TableView<Customer> customerTable;
     public TableColumn<Customer, Integer> cIdCol;
     public TableColumn<Customer, String> cNameCol;
@@ -62,11 +61,76 @@ public class ViewController implements Initializable {
     public TableColumn<Customer, String> cPhoneCol;
     public TableColumn<Customer, Division> cDivisionCol;
     public TableColumn<Customer, Country> cCountryCol;
+    public Button cAddBtn;
+    public Button cDeleteBtn;
+    public Button cUpdateBtn;
+    
+    // Type month report
+    public ComboBox<String> tmTypeCombo;
+    public ComboBox<String> tmMonthCombo;
+    public Button tmCalcBtn;
+    public Label tmCalcLabel;
+
+    // Contact schedule report
+    public ComboBox<Contact> acCombo;
+    public TableView<Appointment> apptContactTable;
+    public TableColumn<Appointment, Integer> acIdCol;
+    public TableColumn<Appointment, String> acTitleCol;
+    public TableColumn<Appointment, String> acDescCol;
+    public TableColumn<Appointment, String> acLocCol;
+    public TableColumn<Appointment, String> acContactCol;
+    public TableColumn<Appointment, String> acTypeCol;
+    public TableColumn<Appointment, String> acStartCol;
+    public TableColumn<Appointment, String> acEndCol;
+    public TableColumn<Appointment, Integer> acCustomerCol;
+    public TableColumn<Appointment, Integer> acUserCol;
+
+    // User customer report
+    public ComboBox<User> ucUserCombo;
+    public ComboBox<Customer> ucCustCombo;
+    public Button ucCalcBtn;
+    public Label ucCalcLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initAppointmentTable();
         initCustomerTable();
+        initReportTable();
+
+        tmTypeCombo.setItems(AppointmentDB.getTypes());
+        ObservableList<String> months = FXCollections.observableArrayList();
+        // lambda expression
+        Arrays.stream(Month.values()).forEach(m -> months.add(m.name()));
+        tmMonthCombo.setItems(months);
+        tmCalcBtn.setOnAction(e -> {
+            if (tmTypeCombo.getSelectionModel().getSelectedItem() != null
+                    && tmMonthCombo.getSelectionModel().getSelectedItem() != null) {
+                int count = AppointmentDB.countByTypeAndMonth(tmTypeCombo.getSelectionModel().getSelectedItem(),
+                        Month.valueOf(tmMonthCombo.getSelectionModel().getSelectedItem()));
+                if (count == 0) tmCalcLabel.setText("No matching appointments found.");
+                else if (count == 1) tmCalcLabel.setText("1 matching appointment found.");
+                else tmCalcLabel.setText(count + " matching appointments found.");
+            } else tmCalcLabel.setText("Please make your selections.");
+        });
+
+        ucUserCombo.setItems(UserDB.getAll());
+        ucCustCombo.setItems(CustomerDB.getAll());
+        ucCalcBtn.setOnAction(e -> {
+            if (ucUserCombo.getSelectionModel().getSelectedItem() != null
+                    && ucCustCombo.getSelectionModel().getSelectedItem() != null) {
+                int count = AppointmentDB.countByUserAndCustomer(ucUserCombo.getSelectionModel().getSelectedItem(),
+                        ucCustCombo.getSelectionModel().getSelectedItem());
+                if (count == 0) ucCalcLabel.setText("No matching appointments found.");
+                else if (count == 1) ucCalcLabel.setText("1 matching appointment found.");
+                else ucCalcLabel.setText(count + " matching appointments found.");
+            } else ucCalcLabel.setText("Please make your selections.");
+        });
+
+        acCombo.setItems(ContactDB.getAll());
+        acCombo.setOnAction(e -> {
+            apptContactTable.setItems(AppointmentDB.getByContact(acCombo.getSelectionModel().getSelectedItem().getId()));
+            apptContactTable.getSortOrder().add(acIdCol);
+        });
 
         aViewAllRadio.setOnAction(e -> {
             appointmentTable.setItems(AppointmentDB.getAll());
@@ -102,6 +166,19 @@ public class ViewController implements Initializable {
 
         appointmentTable.setItems(AppointmentDB.getAll());
         appointmentTable.getSortOrder().add(aIdCol);
+    }
+
+    public void initReportTable() {
+        acIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        acTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        acDescCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        acLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        acContactCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        acTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        acStartCol.setCellValueFactory(new PropertyValueFactory<>("formattedStart"));
+        acEndCol.setCellValueFactory(new PropertyValueFactory<>("formattedEnd"));
+        acCustomerCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        acUserCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
 
     public void initCustomerTable() {

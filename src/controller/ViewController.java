@@ -97,11 +97,11 @@ public class ViewController implements Initializable {
         initCustomerTable();
         initReportTable();
 
-        tmTypeCombo.setItems(AppointmentDB.getTypes());
         ObservableList<String> months = FXCollections.observableArrayList();
         // lambda expression
         Arrays.stream(Month.values()).forEach(m -> months.add(m.name()));
         tmMonthCombo.setItems(months);
+
         tmCalcBtn.setOnAction(e -> {
             if (tmTypeCombo.getSelectionModel().getSelectedItem() != null
                     && tmMonthCombo.getSelectionModel().getSelectedItem() != null) {
@@ -113,8 +113,6 @@ public class ViewController implements Initializable {
             } else tmCalcLabel.setText("Please make your selections.");
         });
 
-        ucUserCombo.setItems(UserDB.getAll());
-        ucCustCombo.setItems(CustomerDB.getAll());
         ucCalcBtn.setOnAction(e -> {
             if (ucUserCombo.getSelectionModel().getSelectedItem() != null
                     && ucCustCombo.getSelectionModel().getSelectedItem() != null) {
@@ -126,10 +124,11 @@ public class ViewController implements Initializable {
             } else ucCalcLabel.setText("Please make your selections.");
         });
 
-        acCombo.setItems(ContactDB.getAll());
         acCombo.setOnAction(e -> {
-            apptContactTable.setItems(AppointmentDB.getByContact(acCombo.getSelectionModel().getSelectedItem().getId()));
-            apptContactTable.getSortOrder().add(acIdCol);
+            if (acCombo.getSelectionModel().getSelectedItem() != null) {
+                apptContactTable.setItems(AppointmentDB.getByContact(acCombo.getSelectionModel().getSelectedItem().getId()));
+                apptContactTable.getSortOrder().add(acIdCol);
+            }
         });
 
         aViewAllRadio.setOnAction(e -> {
@@ -145,6 +144,10 @@ public class ViewController implements Initializable {
         aViewWeekRadio.setOnAction(e -> {
             appointmentTable.setItems(AppointmentDB.getThisWeek());
             appointmentTable.getSortOrder().add(aIdCol);
+        });
+
+        reportTab.setOnSelectionChanged(e -> {
+            if (reportTab.isSelected()) resetReportTab();
         });
     }
 
@@ -179,6 +182,16 @@ public class ViewController implements Initializable {
         acEndCol.setCellValueFactory(new PropertyValueFactory<>("formattedEnd"));
         acCustomerCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         acUserCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
+    }
+
+    public void resetReportTab() {
+        tmTypeCombo.setItems(AppointmentDB.getTypes());
+
+        ucUserCombo.setItems(UserDB.getAll());
+        ucCustCombo.setItems(CustomerDB.getAll());
+
+        acCombo.setItems(ContactDB.getAll());
+        apptContactTable.getItems().clear();
     }
 
     public void initCustomerTable() {

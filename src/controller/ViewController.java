@@ -472,7 +472,7 @@ public class ViewController implements Initializable {
         Customer c = customerTable.getSelectionModel().getSelectedItem();
         if (DialogSender.confirm("Delete Customer", "Are you sure you want to delete '" + c.getName() + "' at ID " + c.getId() + "?")) {
             if (AppointmentDB.hasCustomer(c.getId()))
-                if (!DialogSender.confirm("Delete Customer", "'" + c.getName() + "' has scheduled appointments.\nThe system will delete the appointments on confirmation.\nWould you still like to continue?"))
+                if (!DialogSender.confirm("Delete Customer", "'" + c.getName() + "' has scheduled appointments.\nThe system will cancel the appointments on confirmation.\nWould you still like to continue?"))
                     return;
             if (CustomerDB.delete(c.getId()) == -1) {
                 DialogSender.error("Delete Customer", "Could not delete customer from database!");

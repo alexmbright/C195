@@ -6,8 +6,8 @@ Purpose:
 Author: Alexander Bright
 Contact Information: abrig44@wgu.edu
 
-Application Version: 1.3.2
-Date: 7/6/2022
+Application Version: 1.3.3
+Date: 7/8/2022
 
 IDE: IntelliJ IDEA Community 2021.1.3
 JDK: Java SE 17.0.2

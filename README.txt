@@ -1,4 +1,6 @@
-This project is an Appointment Scheduling System. It is built with JDK / JavaFX 17.0.2, utilizes a MySQL database connection, features a login screen, and automatically translates the login screen based on user timezone. 
+This project is an Appointment Scheduling System. It is built with JDK / JavaFX 17.0.2,
+utilizes a MySQL database connection, features a login screen,
+and automatically translates the login screen based on user timezone. 
 
 
 Title: Scheduling System
